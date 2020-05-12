@@ -6,7 +6,11 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="home_button1">Camera</string>
+    <string name="home_button2">Gallery</string>
+    <string name="home_button3">Download Language</string>
+    <string name="home_button4">History</string>
 </resources>
