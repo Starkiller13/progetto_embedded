@@ -31,6 +31,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void camera(View view)
+    {
+        //camera già esistente
+        //https://developer.android.com/training/camera/photobasics
+    }
+
+    public void gallery(View view)
+    {
+        //aggiungere nel manifest accesso galleria
+    }
+
+    public void language(View view)
+    {
+
+    }
+
+    public void history(View view)
+    {
+
+    }
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

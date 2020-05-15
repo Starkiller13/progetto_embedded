@@ -33,9 +33,10 @@
         />
 
     <com.google.android.material.button.MaterialButton
-        android:text="@string/home_button1"
-        android:id="@+id/button1"
+        android:text="@string/home_button_camera"
+        android:id="@+id/button_camera"
         style="@style/button_h"
+        android:onClick="camera"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,9 +45,10 @@
         app:layout_constraintVertical_bias="0.35"
         />
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button2"
-        android:text="@string/home_button2"
+        android:id="@+id/button_galley"
+        android:text="@string/home_button_galley"
         style="@style/button_h"
+        android:onClick="gallery"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,9 +57,10 @@
         app:layout_constraintVertical_bias="0.35"
         />
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button3"
-        android:text="@string/home_button3"
+        android:id="@+id/button_language"
+        android:text="@string/home_button_language"
         style="@style/button_h"
+        android:onClick="language"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -67,9 +70,10 @@
         />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button4"
-        android:text="@string/home_button4"
+        android:id="@+id/button_history"
+        android:text="@string/home_button_history"
         style="@style/button_h"
+        android:onClick="history"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
