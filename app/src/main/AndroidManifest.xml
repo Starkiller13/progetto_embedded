@@ -2,13 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.progetto_embedded">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera"
-                  android:required="true"/> <!--Se lo smartphone non ha la fotocamera non può installare l'app -->
+
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" /> <!-- Se lo smartphone non ha la fotocamera non può installare l'app -->
+    <uses-permission-sdk-23 android:name="string"
+        android:maxSdkVersion="26" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +21,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".Camera_activity"
+            android:label="@string/title_activity_camera_activity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -27,8 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.google.com.gms.vision.DEPENDENCIES"
-            android:value="ocr"/>
+
+        <meta-data
+            android:name="com.google.com.gms.vision.DEPENDENCIES"
+            android:value="ocr" />
     </application>
 
 </manifest>

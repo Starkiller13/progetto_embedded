@@ -13,4 +13,5 @@
     <string name="home_button_galley">Gallery</string>
     <string name="home_button_language">Download Language</string>
     <string name="home_button_history">History</string>
+    <string name="title_activity_camera_activity">Camera_activity</string>
 </resources>

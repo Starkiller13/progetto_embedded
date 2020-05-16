@@ -32,7 +32,7 @@
         android:layout_margin="16dp"
         />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:text="@string/home_button_camera"
         android:id="@+id/button_camera"
         style="@style/button_h"
@@ -44,7 +44,7 @@
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintVertical_bias="0.35"
         />
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/button_galley"
         android:text="@string/home_button_galley"
         style="@style/button_h"
@@ -56,7 +56,7 @@
         app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintVertical_bias="0.35"
         />
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/button_language"
         android:text="@string/home_button_language"
         style="@style/button_h"
@@ -69,7 +69,7 @@
         app:layout_constraintVertical_bias="0.65"
         />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/button_history"
         android:text="@string/home_button_history"
         style="@style/button_h"

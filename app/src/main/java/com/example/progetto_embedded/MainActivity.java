@@ -38,32 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    //Uso Fotocamera del sistema Android
-    public void camera(View view)
-    {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-        //https://developer.android.com/training/camera/photobasics
+    public void camera(View view){
+        Intent cameraV = new Intent(this, Camera_activity.class);
+        startActivityForResult(cameraV,0);
     }
-    //The following code retrieves this image and displays it in an ImageView.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //imageView.setImageBitmap(imageBitmap);
-            //imageView da creare
-            //https://www.youtube.com/watch?v=i5UcFAdKe5M
-        }
-    }
-
-
-
     public void gallery(View view)
     {
 
