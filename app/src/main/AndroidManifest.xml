@@ -4,8 +4,9 @@
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera"
-                  android:required="false"/> <!--Si può usare l'app senza una camera -->
+                  android:required="true"/> <!--Se lo smartphone non ha la fotocamera non può installare l'app -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 
