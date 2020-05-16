@@ -34,15 +34,14 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-
-
     }
 
     public void camera(View view){
+        //Avvio l'activity dedicata alla camera
         Intent cameraV = new Intent(this, Camera_activity.class);
         startActivityForResult(cameraV,0);
     }
+
     public void gallery(View view)
     {
 
@@ -79,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

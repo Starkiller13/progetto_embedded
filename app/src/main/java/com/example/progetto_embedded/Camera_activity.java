@@ -19,10 +19,14 @@ import android.widget.ImageView;
 
 public class Camera_activity extends AppCompatActivity {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_activity);
+
+        //Check permission
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS)
@@ -49,12 +53,12 @@ public class Camera_activity extends AppCompatActivity {
             // Permission has already been granted
         }
 
+        //Request image capture
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
 
     }
-    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     //Uso Fotocamera del sistema Android
     //The following code retrieves this image and displays it in an ImageView.
@@ -66,11 +70,10 @@ public class Camera_activity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             ImageView imageView = (ImageView) findViewById(R.id.image_view);
             imageView.setImageBitmap(imageBitmap);
-            //imageView da creare
-            //https://www.youtube.com/watch?v=i5UcFAdKe5M
         }
     }
 
+    //Check permission
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
@@ -92,6 +95,4 @@ public class Camera_activity extends AppCompatActivity {
             // permissions this app might request.
         }
     }
-
-
 }
