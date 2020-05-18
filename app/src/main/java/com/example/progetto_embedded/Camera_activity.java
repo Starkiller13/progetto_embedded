@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class Camera_activity extends AppCompatActivity {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
@@ -26,8 +27,9 @@ public class Camera_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_activity);
 
-        //Check permission
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        //Check permission
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -57,6 +59,12 @@ public class Camera_activity extends AppCompatActivity {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+        else
+        {
+            //DA VERIFICARE SE IL TOAST FUNZIONA
+            Toast myToast = Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT);
+            myToast.show();
+        }
 
     }
 
@@ -75,8 +83,7 @@ public class Camera_activity extends AppCompatActivity {
 
     //Check permission
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CAMERA: {
                 // If request is cancelled, the result arrays are empty.

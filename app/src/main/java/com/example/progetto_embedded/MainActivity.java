@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void gallery(View view)
     {
-
+        //Avvio l'activity dedicata alla galleria
+        Intent galleryV = new Intent(this,Gallery_activity.class);
+        startActivityForResult(galleryV,0);
     }
 
     public void language(View view)
