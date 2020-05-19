@@ -27,7 +27,7 @@
         <activity
             android:name=".Gallery_activity"
             android:label="@string/title_activity_gallery_activity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Camera_activity"
             android:exported="true"
