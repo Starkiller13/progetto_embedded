@@ -24,6 +24,7 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
+    final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +43,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void camera(View view){
-        //Avvio l'activity dedicata alla camera
+    public void camera(View view)
+    {
+        //Controllo di avere i permessi
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},MY_PERMISSIONS_REQUEST_CAMERA);
         }else {
+            //Avvio l'activity dedicata alla camera
             Intent cameraV = new Intent(this, Camera_activity.class);
             startActivityForResult(cameraV, 0);
         }
@@ -54,11 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void gallery(View view)
     {
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        }else {
             //Avvio l'activity dedicata alla galleria
             Intent galleryV = new Intent(this, Gallery_activity.class);
             startActivityForResult(galleryV, 0);
-
+        }
     }
 
     public void language(View view)
@@ -103,14 +108,28 @@ public class MainActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //Permission granted, avvio l'activity della camera
                     Intent cameraV = new Intent(this,Camera_activity.class);
                     startActivityForResult(cameraV,0);
                 } else {
+                    //Permission denied
                     Toast myToast = Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT);
                     myToast.show();
                 }
-                return;
             }
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                    // If request is cancelled, the result arrays are empty.
+                    if (grantResults.length > 0
+                            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        //Permission granted, avvio l'activity della camera
+                        Intent galleryV = new Intent(this,Gallery_activity.class);
+                        startActivityForResult(galleryV,0);
+                    } else {
+                        //Permission denied
+                        Toast myToast = Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT);
+                        myToast.show();
+                    }
+                }
         }
     }
 

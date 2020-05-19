@@ -44,10 +44,10 @@ public class Camera_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.camera_gallery_activity);
+        setContentView(R.layout.camera_activity);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        imageView=findViewById(R.id.image_view);
+        imageView=findViewById(R.id.image_view_1);
         File image = null;
         try {
             image= createImageFile();
@@ -62,34 +62,19 @@ public class Camera_activity extends AppCompatActivity {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
 
-
     }
 
-    public void onElaborateClick(View view){
-        if(currentPhotoPath==null){
+    public void onElaborateClick(View view) {
+        if (currentPhotoPath == null) {
             Toast myToast = Toast.makeText(this, "No image found", Toast.LENGTH_SHORT);
             myToast.show();
-        }else{
-            Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
-            TextRecognizer rec = new TextRecognizer.Builder(getApplicationContext()).build();
-            if(!rec.isOperational()){
-                Toast myToast = Toast.makeText(this, "Vision API not reachable", Toast.LENGTH_SHORT);
-                myToast.show();
-            }else {
-                Frame f = new Frame.Builder().setBitmap(bitmap).build();
-                SparseArray<TextBlock> items = rec.detect(f);
-                StringBuilder st = new StringBuilder();
-                for(int i=0; i<items.size();i++){
-                    TextBlock tb = items.valueAt(i);
-                    st.append(tb.getValue());
-                    st.append("\n");
-                }
-                TextView tw = findViewById(R.id.output_textview);
-                tw.setText(st);
-            }
+        } else {
+            StringBuilder st = new StringBuilder();
+            st = staticOCR_t2s.elaborate_button(currentPhotoPath,this);
+            TextView tw = findViewById(R.id.output_textview_1);
+            tw.setText(st);
         }
     }
-
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ITALY).format(new Date());
