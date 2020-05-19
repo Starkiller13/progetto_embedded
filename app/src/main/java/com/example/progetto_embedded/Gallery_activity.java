@@ -23,7 +23,7 @@ public class Gallery_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery_activity);
+        setContentView(R.layout.camera_gallery_activity);
 
         Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery,PICK_IMAGE);

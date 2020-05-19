@@ -15,4 +15,6 @@
     <string name="home_button_history">History</string>
     <string name="title_activity_camera_activity">Camera_activity</string>
     <string name="title_activity_gallery_activity">Gallery_activity</string>
+    <string name="button_elaborate">Process</string>
+    <string name="button_t2s">Hear</string>
 </resources>
