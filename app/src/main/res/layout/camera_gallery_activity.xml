@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Gallery_activity">
+    tools:context=".Camera_activity">
 
     <ImageView
         android:id="@+id/image_view"
@@ -13,6 +13,7 @@
         app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:id="@+id/button_elaborate"
+        android:onClick="onElaborateClick"
         android:text="@string/button_elaborate"
         style="@style/button_h"
         android:layout_width="100dp"

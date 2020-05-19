@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     @Override
@@ -111,4 +113,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
