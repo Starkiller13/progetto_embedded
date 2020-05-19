@@ -29,23 +29,9 @@ public class Camera_activity extends AppCompatActivity {
         setContentView(R.layout.activity_camera_activity);
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
+        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         //Check permission
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},MY_PERMISSIONS_REQUEST_CAMERA);
-        }
 
-        //Request image capture
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-        else
-        {
-            //DA VERIFICARE SE IL TOAST FUNZIONA
-            Toast myToast = Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT);
-            myToast.show();
-            //SE LE PERMISSION NON VENGONO DATE L'APP SI INTERROMPE
-        }
 
     }
 
@@ -59,25 +45,10 @@ public class Camera_activity extends AppCompatActivity {
             Bundle extras = data.getExtras();
 
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ImageView imageView = (ImageView) findViewById(R.id.image_view);
+            ImageView imageView = findViewById(R.id.image_view);
             imageView.setImageBitmap(imageBitmap);
         }
     }
 
-    //Check permission
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_CAMERA: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted
-                } else {
-                    // permission denied
-                }
-                return;
-            }
-        }
-    }
+
 }
