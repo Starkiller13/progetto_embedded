@@ -39,7 +39,7 @@ public class Camera_activity extends AppCompatActivity {
     private static final String TAG = "Camera_activity";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ImageView imageView = null;
-    String currentPhotoPath = null;
+    private String currentPhotoPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
