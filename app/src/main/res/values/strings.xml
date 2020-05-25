@@ -17,4 +17,6 @@
     <string name="title_activity_gallery_activity">Gallery_activity</string>
     <string name="button_elaborate">Process</string>
     <string name="button_t2s">Hear</string>
+    <string name="button_play">Play</string>
+    <string name="button_stop">Stop</string>
 </resources>
