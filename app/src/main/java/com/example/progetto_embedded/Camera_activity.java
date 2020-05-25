@@ -1,3 +1,5 @@
+//NOTA BENE: quando si scarta la foto, si viene mandati ad una UI in cui sono presenti solo process e hear
+
 package com.example.progetto_embedded;
 
 import android.Manifest;
@@ -64,15 +66,25 @@ public class Camera_activity extends AppCompatActivity {
 
     }
 
+    //pulsante process
     public void onElaborateClick(View view) {
         if (currentPhotoPath == null) {
             Toast myToast = Toast.makeText(this, "No image found", Toast.LENGTH_SHORT);
             myToast.show();
         } else {
+            //when I press the button process, go to Text2Speech activity
+            //make an intent
             StringBuilder st = new StringBuilder();
             st = staticOCR_t2s.elaborate_button(currentPhotoPath,this);
-            TextView tw = findViewById(R.id.output_textview_1);
-            tw.setText(st);
+            String str = new String();
+            str = st.toString();
+            Intent t2s = new Intent(this, Text2Speech.class);
+            t2s.putExtra("message", str);
+            startActivityForResult(t2s,0);
+
+            //TextView tw = findViewById(R.id.output_textview_1);
+            //tw.setText(st);
+
         }
     }
     private File createImageFile() throws IOException {
