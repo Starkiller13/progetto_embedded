@@ -78,6 +78,8 @@ public class Camera_activity extends AppCompatActivity {
             st = staticOCR_t2s.elaborate_button(currentPhotoPath,this);
             String str = new String();
             str = st.toString();
+
+            //Classe Text2Speech
             Intent t2s = new Intent(this, Text2Speech.class);
             t2s.putExtra("message", str);
             startActivityForResult(t2s,0);

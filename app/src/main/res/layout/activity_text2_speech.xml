@@ -41,6 +41,7 @@
         android:id="@+id/button_play"
         style="@style/button_h"
         android:text="@string/button_play"
+        android:onClick="play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.245"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -51,6 +52,7 @@
     <Button
         android:id="@+id/button_stop"
         style="@style/button_h"
+        android:onClick="stop"
         android:layout_marginStart="52dp"
         android:layout_marginLeft="52dp"
         android:text="@string/button_stop"
