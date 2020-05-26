@@ -4,23 +4,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Text2Speech extends AppCompatActivity {
     //prende la stringa passata tramite intent
+    final static String TAG = "Text2SpeechActivity";
     TextToSpeech t2s;
     TextView tw;
+    Spinner lang_spinner;
+    Locale[] locales = Locale.getAvailableLocales();
+    ArrayAdapter<String> aa;
+    List<Locale> localeList = new ArrayList<Locale>();
+    List<String> country = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text2_speech);
-
         String txt = getIntent().getStringExtra("message");
         tw = findViewById(R.id.textbox);
         tw.setText(txt);
@@ -34,11 +42,21 @@ public class Text2Speech extends AppCompatActivity {
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
                     //if there isnt any error, set the language
-                    t2s.setLanguage(Locale.UK);
+                    t2s.setLanguage(Locale.ITALIAN);
                 }
             }
         });
-
+        lang_spinner = (Spinner) findViewById(R.id.languages_spinner);
+        for (Locale locale : locales) {
+                localeList.add(locale);
+                // * - 'country' is used to populate the adapter, so
+                // this line must come first
+                country.add(locale.getDisplayName());
+        }
+        Log.v("WXYZ",country.toString());
+        aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, country);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        lang_spinner.setAdapter(aa);
         //b_play press
       /*  b_play.setOnClickListener(new View.OnClickListener() {
             @Override

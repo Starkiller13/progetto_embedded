@@ -37,32 +37,51 @@ import java.util.Locale;
 
 import com.google.android.gms.vision.text.TextRecognizer;
 
-public class Camera_activity extends AppCompatActivity {
-    private static final String TAG = "Camera_activity";
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+public class Camera_Gallery_activity extends AppCompatActivity {
+    private static final String TAG = "Camera_Gallery_activity";
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int PICK_IMAGE=100;
+
     ImageView imageView = null;
+    private Uri imageUri;
     private String currentPhotoPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.camera_activity);
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        imageView=findViewById(R.id.image_view_1);
-        File image = null;
-        try {
-            image= createImageFile();
-        }catch(IOException e){
+        setContentView(R.layout.camera_gallery_activity);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Intent intent = getIntent();
+        int act = intent.getIntExtra("activity",0);
+        Log.v(TAG, "valore di act: "+ act);
+        switch (act){
+            //Cattura immagine
+            case 0:
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                imageView=findViewById(R.id.image_view_1);
+                File image = null;
+                try {
+                    image= createImageFile();
+                }catch(IOException e){
 
+                }
+                if (image != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this,
+                            "com.example.android.fileprovider",
+                            image);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+                break;
+            //Ricerca foto
+            case 1:
+                Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                //avvio l'activity per recuperare l'immagine dalla galleria
+                startActivityForResult(gallery,PICK_IMAGE);
+                break;
         }
-        if (image != null) {
-            Uri photoURI = FileProvider.getUriForFile(this,
-                    "com.example.android.fileprovider",
-                    image);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
+
 
     }
 
@@ -76,8 +95,7 @@ public class Camera_activity extends AppCompatActivity {
             //make an intent
             StringBuilder st = new StringBuilder();
             st = staticOCR_t2s.elaborate_button(currentPhotoPath,this);
-            String str = new String();
-            str = st.toString();
+            String str = st.toString();
 
             //Classe Text2Speech
             Intent t2s = new Intent(this, Text2Speech.class);
@@ -91,7 +109,7 @@ public class Camera_activity extends AppCompatActivity {
     }
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ITALY).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -109,8 +127,15 @@ public class Camera_activity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.v(TAG, "data: "+ data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             imageView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath));
+        }
+        else if(requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+                imageUri = data.getData();
+                ImageView imageView = findViewById(R.id.image_view_1);
+                imageView.setImageURI(imageUri);
+                currentPhotoPath=imageUri.getPath().substring(4);//i primi 4 caratteri non mi servono ("/raw")
         }
     }
 

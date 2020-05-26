@@ -50,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},MY_PERMISSIONS_REQUEST_CAMERA);
         }else {
             //Avvio l'activity dedicata alla camera
-            Intent cameraV = new Intent(this, Camera_activity.class);
-            startActivityForResult(cameraV, 0);
+            Intent i = new Intent(this, Camera_Gallery_activity.class);
+            i.putExtra("activity",(int)0);
+            startActivityForResult(i, 0);
         }
     }
 
@@ -61,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         }else {
             //Avvio l'activity dedicata alla galleria
-            Intent galleryV = new Intent(this, Gallery_activity.class);
-            startActivityForResult(galleryV, 0);
+            Intent i = new Intent(this, Camera_Gallery_activity.class);
+            i.putExtra("activity",(int)1);
+            startActivityForResult(i, 0);
         }
     }
 
@@ -106,30 +108,35 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
+                Intent i = new Intent(this,Camera_Gallery_activity.class);
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //Permission granted, avvio l'activity della camera
-                    Intent cameraV = new Intent(this,Camera_activity.class);
-                    startActivityForResult(cameraV,0);
+
+                    i.putExtra("activity",0);
+                    startActivityForResult(i,0);
                 } else {
                     //Permission denied
                     Toast myToast = Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT);
                     myToast.show();
                 }
             }
+            break;
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
                     // If request is cancelled, the result arrays are empty.
+                    Intent i = new Intent(this,Camera_Gallery_activity.class);
                     if (grantResults.length > 0
                             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         //Permission granted, avvio l'activity della camera
-                        Intent galleryV = new Intent(this,Gallery_activity.class);
-                        startActivityForResult(galleryV,0);
+                        i.putExtra("activity",1);
+                        startActivityForResult(i,0);
                     } else {
                         //Permission denied
                         Toast myToast = Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT);
                         myToast.show();
                     }
                 }
+            break;
         }
     }
 
