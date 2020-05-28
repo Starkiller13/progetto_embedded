@@ -1,7 +1,57 @@
+/*
+PER GESTIRE PAUSE POSSO USARE UN FILE ESTERNO
+private String envPath = Environment.getExternalStorageDirectory()
+        .getAbsolutePath() + "/Download";
+private Uri fileUri;
+
+public void fileCreate() {
+    String inputText = output.getText().toString();
+
+    HashMap<String, String> myHashRender = new HashMap<String, String>();
+    myHashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, inputText);
+    Log.d(TAG, "successfully created hashmap");
+
+    String destFileName = envPath + "/" + "tts_file.wav";
+
+    int sr = tts.synthesizeToFile(inputText, myHashRender, destFileName);
+    Log.d(TAG, "synthesize returns = " + sr);
+    File fileTTS = new File(destFileName);
+
+    if (fileTTS.exists()) {
+        Log.d(TAG, "successfully created fileTTS");
+    }
+    else {
+        Log.d(TAG, "failed while creating fileTTS");
+    }
+
+    fileUri = Uri.fromFile(fileTTS);
+    Log.d(TAG, "successfully created uri link: " + fileUri.getPath());
+}
+
+fileCreate();
+    mp = MediaPlayer.create(this, fileUri);
+    Log.d(TAG, "successfuly created mediaplayer");
+
+    btnRead.setOnClickListener(new OnClickListener() {
+
+        @Override
+        public void onClick(View arg0) {
+            if (mp.isPlaying()) {
+                mp.pause();
+                Log.d(TAG, "successfully paused");
+            } else {
+                mp.start();
+                Log.d(TAG, "successfully started");
+            }
+        }
+
+    });
+ */
 package com.example.progetto_embedded;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -25,6 +75,8 @@ public class Text2Speech extends AppCompatActivity {
     ArrayAdapter<String> aa;
     List<Locale> localeList = new ArrayList<Locale>();
     List<String> country = new ArrayList<String>();
+
+    //private Uri textUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,15 +89,18 @@ public class Text2Speech extends AppCompatActivity {
         //EditText ed = findViewById(R.id.textbox);
         //ed.append(txt);
 
+
         t2s = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
-                    //if there isnt any error, set the language
+                    //if there isn't any error, set the language
                     t2s.setLanguage(Locale.ITALIAN);
                 }
             }
         });
+
+
         lang_spinner = (Spinner) findViewById(R.id.languages_spinner);
         for (Locale locale : locales) {
                 localeList.add(locale);

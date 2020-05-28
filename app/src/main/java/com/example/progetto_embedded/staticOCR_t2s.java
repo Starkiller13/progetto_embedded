@@ -22,7 +22,8 @@ public class staticOCR_t2s extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
             TextRecognizer rec = new TextRecognizer.Builder(context).build();
             if(!rec.isOperational()){
-                st.append("ERROR: Google vision API are not responing\n");
+                //st.append("ERROR: Google vision API are not responing\n");
+                st.append("ERROR: I'm not able to elaborate your image!\n");
             }else {
                 Frame f = new Frame.Builder().setBitmap(bitmap).build();
                 SparseArray<TextBlock> items = rec.detect(f);
