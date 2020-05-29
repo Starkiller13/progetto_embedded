@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:checked="false"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home"/>
+
+        <item
+            android:id="@+id/hist"
+            android:checked="false"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="History" />
+
+        <item
+            android:id="@+id/lang"
+            android:checked="false"
+            android:icon="@drawable/ic_add_circle_outline_black_24dp"
+            android:title="Languages" />
+        <item
+            android:id="@+id/settings"
+            android:checked="false"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="Settingss" />
+    </group>
+</menu>

@@ -1,86 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <androidx.appcompat.widget.Toolbar
-    android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:title="@string/app_name"
-    android:background="@android:color/holo_orange_dark"
-    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-    app:layout_constraintTop_toTopOf="parent"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-</androidx.appcompat.widget.Toolbar>
+    android:id="@+id/nav_drawer"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/dark_accent2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/app_name"
+            app:titleTextColor="@android:color/white"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        </androidx.appcompat.widget.Toolbar>
 
 
-    <!--Da aggiungere a FAB
-        android:src="@drawable/ic_my_icon"
-        android:contentDescription="@string/submit" -->
+        <!--Da aggiungere a FAB
+            android:src="@drawable/ic_my_icon"
+            android:contentDescription="@string/submit" -->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="16dp"
+            /> -->
+
+        <view class="androidx.appcompat.app.AlertController$RecycleListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rect_view"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toTopOf="@id/button_view"
+            app:boxCornerRadiusTopStart="20dp"
+            android:layout_margin="10sp"
+            >
+        </view>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/button_view"
+            android:background="@drawable/rect_view"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginBottom="10sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Button
+            android:text="@string/home_button_camera"
+            android:id="@+id/button_camera"
+            style="@style/button_h"
+            android:drawableRight="@drawable/ic_camera_alt_black_24dp"
+            android:onClick="camera"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintHorizontal_bias="0.20"
+            />
+
+        <Button
+            android:id="@+id/button_galley"
+            android:text="@string/home_button_galley"
+            style="@style/button_h"
+            android:drawableRight="@drawable/ic_image_black_24dp"
+            android:onClick="gallery"
+            android:layout_marginBottom="20sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.80"
+            app:layout_constraintVertical_bias="1"
+            />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:background="@color/colorPrimary"
+        android:layout_height="match_parent"
+        android:id="@+id/navigation"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="16dp"
-        />
-
-    <Button
-        android:text="@string/home_button_camera"
-        android:id="@+id/button_camera"
-        style="@style/button_h"
-        android:onClick="camera"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintVertical_bias="0.35"
-        />
-
-    <Button
-        android:id="@+id/button_galley"
-        android:text="@string/home_button_galley"
-        style="@style/button_h"
-        android:onClick="gallery"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintVertical_bias="0.35"
-        />
-    <Button
-        android:id="@+id/button_language"
-        android:text="@string/home_button_language"
-        style="@style/button_h"
-        android:onClick="language"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintVertical_bias="0.65"
-        />
-
-    <Button
-        android:id="@+id/button_history"
-        android:text="@string/home_button_history"
-        style="@style/button_h"
-        android:onClick="history"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintVertical_bias="0.65"
-        />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/my_navigation_items"/>
+</androidx.drawerlayout.widget.DrawerLayout>

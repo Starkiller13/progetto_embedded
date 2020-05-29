@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/dark_accent2"
+    android:id="@+id/nav_drawer"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Text2Speech">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/app_name"
+        app:titleTextColor="@android:color/white"
+        android:background="@android:color/holo_orange_dark"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    </androidx.appcompat.widget.Toolbar>
 
     <!--<Button
         android:id="@+id/button_play"
@@ -25,36 +43,54 @@
         android:text="@string/button_stop"
         tools:layout_editor_absoluteX="239dp"
         tools:layout_editor_absoluteY="90dp" />-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/t2s_player"
+        android:background="@drawable/rect_view"
+        app:layout_constraintVertical_bias="0"
+        android:layout_margin="10sp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/t2s_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image_play"
+            android:layout_width="70dp"
+            android:layout_height="81dp"
+            app:layout_constraintHorizontal_bias="0.30"
+            android:src="@drawable/ic_start"
+            android:onClick="play"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="0.25"
+            app:layout_constraintBottom_toTopOf="@id/languages_spinner"
+            android:contentDescription="@string/image_play"/>
 
-    <ImageView
-        android:id="@+id/image_play"
-        android:layout_width="70dp"
-        android:layout_height="81dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginLeft="104dp"
-        android:layout_marginTop="70dp"
-        android:onClick="play"
-        android:src="@drawable/ic_start"
-        app:layout_constraintBottom_toTopOf="@+id/languages_spinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:contentDescription="@string/image_play"/>
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="81dp"
+            android:onClick="stop"
+            android:id="@+id/image_stop"
+            app:layout_constraintHorizontal_bias="0.70"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="0.25"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_stop"
+            android:contentDescription="@string/image_stop"/>
 
-    <ImageView
-        android:id="@+id/image_stop"
-        android:layout_width="70dp"
-        android:layout_height="81dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="70dp"
-        android:onClick="stop"
-        android:src="@drawable/ic_stop"
-        app:layout_constraintStart_toEndOf="@+id/image_play"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/image_stop"/>
-
-    <!-- Per provare e vedere se funziona-->
+        <Spinner
+            android:id="@+id/languages_spinner"
+            style="@style/button_h"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_stop" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Per provare e vedere se funziona
     <Button
         android:id="@+id/button_pause"
         style="@style/button_h"
@@ -63,42 +99,51 @@
         android:text="@string/button_pause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <Spinner
-        android:id="@+id/languages_spinner"
-        style="@style/button_h"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/textbox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_stop" />
 
-    <TextView
-        android:id="@+id/textbox"
-        android:layout_width="382dp"
-        android:layout_height="342dp"
-        android:layout_marginBottom="88dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button_add_history"
-        style="@style/button_h"
-        android:onClick="addHistory"
-        android:text="@string/button_add_history"
-        android:padding="8dp"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/t2s_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textbox"
-        />
+        android:layout_margin="10sp"
+        android:background="@drawable/rect_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/t2s_player"
+        app:layout_constraintVertical_bias="1"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/textbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="88dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button_add_history"
+            style="@style/button_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:onClick="addHistory"
+            android:padding="8dp"
+            android:text="@string/button_add_history"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textbox" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:layout_height="match_parent"
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start|left"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/my_navigation_items"/>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -15,10 +15,12 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -41,8 +43,8 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     private static final String TAG = "Camera_Gallery_activity";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PICK_IMAGE=100;
-
-    ImageView imageView = null;
+    private DrawerLayout navDrawer;
+    private ImageView imageView = null;
     private Uri imageUri;
     private String currentPhotoPath = null;
 
@@ -52,6 +54,8 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         setContentView(R.layout.camera_gallery_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         int act = intent.getIntExtra("activity",0);
         Log.v(TAG, "valore di act: "+ act);

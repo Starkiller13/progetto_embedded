@@ -9,9 +9,12 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.provider.MediaStore;
 import android.view.View;
@@ -25,6 +28,7 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    private DrawerLayout navDrawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +37,24 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        navDrawer = findViewById(R.id.nav_drawer);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this,navDrawer,toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+
+        navDrawer.addDrawerListener(toggle);
+        toggle.syncState();
+        /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
     }
 
     public void camera(View view)
@@ -81,6 +95,21 @@ public class MainActivity extends AppCompatActivity {
         //recyclerView
     }
 
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        Intent i;
+        if (id == R.id.hist) {
+
+        } else if (id == R.id.lang) {
+
+        } else if (id == R.id.settings) {
+
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_drawer);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
