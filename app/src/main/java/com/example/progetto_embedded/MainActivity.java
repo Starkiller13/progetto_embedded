@@ -75,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void history(View view)
     {
+        //PER LEGGERE LE ACTIVITY DAL DATABASE
+        //https://www.youtube.com/watch?v=Dik-sGDWTrE
 
+        //recyclerView
     }
 
 

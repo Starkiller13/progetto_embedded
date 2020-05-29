@@ -112,39 +112,6 @@ public class Text2Speech extends AppCompatActivity {
         aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, country);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         lang_spinner.setAdapter(aa);
-        //b_play press
-      /*  b_play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //get the text from TextView
-                String toSpeak = tw.getText().toString();
-                //if there isnt text in textview
-                if (toSpeak.equals("")) {
-                    Toast.makeText(Text2Speech.this, "Please check the photo and try again", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                    //speak text
-                    t2s.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                }
-            }
-        });
-
-
-        //b_stop press
-        b_stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(t2s.isSpeaking()) {
-                    //if it's speaking, then stop it
-                    t2s.stop();
-                    t2s.shutdown();
-                }
-                else {
-                    Toast.makeText(Text2Speech.this, "Not speaking", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
-
     }
 
     public void play(View view)
@@ -171,6 +138,12 @@ public class Text2Speech extends AppCompatActivity {
         else {
             Toast.makeText(Text2Speech.this, "Not speaking", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void addHistory(View view)
+    {
+        //DA FARE
+        //SE IL SALVATAGGIO VA A BUON FINE FAR VENIRE FUORI UN TOAST
     }
 
 
