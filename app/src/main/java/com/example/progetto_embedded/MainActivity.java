@@ -7,33 +7,43 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.internal.NavigationMenuView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    final String TAG = "main_act";
     private DrawerLayout navDrawer;
+    private NavigationView mNavigationView;
+    private FrameLayout f;
+    private ConstraintLayout.LayoutParams params;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -44,17 +54,50 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         );
-
-        navDrawer.addDrawerListener(toggle);
         toggle.syncState();
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+        navDrawer.addDrawerListener(toggle);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(this);
+        }
+
+        f = findViewById(R.id.fragment_container);
+        params = (ConstraintLayout.LayoutParams) f.getLayoutParams();
+
+        String i = getIntent().getStringExtra("result");
+        /*Gestisco il ritorno a main activity da Camera Gallery Activity
+        * l'interfaccia è gestita da fragment quindi devo capire quale fragment usare
+        *
+        * */
+        if(i!=null){
+            //viene passato un intent da Camera_Gallery_activity
+            Log.v(TAG,i);
+            //E' ridondante ma non so se dovrò fare altro più avanti
+            if(i.compareTo("true")==0) {
+                String txt = getIntent().getStringExtra("message");
+                Bundle bundle = new Bundle();
+                bundle.putString("text", txt);
+                //Creo il fragment T"SFragment
+                T2SFragment frag = new T2SFragment();
+                frag.setArguments(bundle);
+                params.verticalBias=0.1f;
+                f.setLayoutParams(params);
+                //Imposto il fragment nel FrameView
+                getSupportFragmentManager().beginTransaction().replace(f.getId(), frag).commit();
             }
-        });*/
+        }else{
+            params.verticalBias=1f;
+            f.setLayoutParams(params);
+            //Imposto il fragment Home_Fragment nel FrameView
+            getSupportFragmentManager().beginTransaction().replace(f.getId(),new HomeFragment()).commit();
+        }
+    }
+    @Override
+    public void onBackPressed(){
+        if(navDrawer.isDrawerOpen(GravityCompat.START)){
+            navDrawer.closeDrawer(GravityCompat.START);
+        }
+        super.onBackPressed();
     }
 
     public void camera(View view)
@@ -98,9 +141,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Intent i;
-        if (id == R.id.hist) {
-
+        if(id == R.id.home){
+            params.verticalBias=1f;
+            f.setLayoutParams(params);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+        }
+        else if (id == R.id.hist) {
+            params.verticalBias=0f;
+            f.setLayoutParams(params);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HistoryFragment()).commit();
         } else if (id == R.id.lang) {
 
         } else if (id == R.id.settings) {

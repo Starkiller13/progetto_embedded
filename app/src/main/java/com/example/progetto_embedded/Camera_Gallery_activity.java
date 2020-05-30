@@ -102,7 +102,8 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             String str = st.toString();
 
             //Classe Text2Speech
-            Intent t2s = new Intent(this, Text2Speech.class);
+            Intent t2s = new Intent(this, MainActivity.class);
+            t2s.putExtra("result","true");
             t2s.putExtra("message", str);
             startActivityForResult(t2s,0);
 

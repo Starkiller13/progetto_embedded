@@ -8,14 +8,18 @@ import java.util.List;
 public class HistoryViewModel extends AndroidViewModel {
     private HistoryRepository mRepository;
     private LiveData<List<History>> mAllTexts;
+    private LiveData<List<History>> mLatTexts;
 
     public HistoryViewModel(Application application)
     {
         super(application);
         mRepository = new HistoryRepository(application);
         mAllTexts=mRepository.getAllTexts();
+        mLatTexts=mRepository.getLatestTexts();
     }
     LiveData<List<History>> getAllTexts() {return mAllTexts;}
+
+    LiveData<List<History>> getLatestTexts() {return mLatTexts;}
 
     void insert(History text){mRepository.insert(text);}
 }

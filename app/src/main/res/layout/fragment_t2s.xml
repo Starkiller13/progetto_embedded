@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/dark_accent2"
-    android:id="@+id/nav_drawer"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent"
+    tools:context=".T2SFragment">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Text2Speech">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:title="@string/app_name"
-        app:titleTextColor="@android:color/white"
-        android:background="@android:color/holo_orange_dark"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-    </androidx.appcompat.widget.Toolbar>
+    android:layout_height="match_parent">
 
     <!--<Button
         android:id="@+id/button_play"
@@ -48,7 +33,7 @@
         android:background="@drawable/rect_view"
         app:layout_constraintVertical_bias="0"
         android:layout_margin="10sp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/t2s_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -58,7 +43,6 @@
             android:layout_height="81dp"
             app:layout_constraintHorizontal_bias="0.30"
             android:src="@drawable/ic_start"
-            android:onClick="play"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintVertical_bias="0.25"
@@ -68,7 +52,6 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="81dp"
-            android:onClick="stop"
             android:id="@+id/image_stop"
             app:layout_constraintHorizontal_bias="0.70"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -84,7 +67,7 @@
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,17 +95,15 @@
         app:layout_constraintTop_toBottomOf="@id/t2s_player"
         app:layout_constraintVertical_bias="1"
         tools:layout_editor_absoluteX="0dp">
-
         <TextView
+            android:scrollbars = "vertical"
             android:id="@+id/textbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="88dp"
             android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:maxHeight="400dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_add_history" />
 
         <Button
             android:id="@+id/button_add_history"
@@ -130,20 +111,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:onClick="addHistory"
             android:padding="8dp"
             android:text="@string/button_add_history"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textbox" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textbox"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-    <com.google.android.material.navigation.NavigationView
-        android:layout_height="match_parent"
-        android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_gravity="start|left"
-        app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/my_navigation_items"/>
-</androidx.drawerlayout.widget.DrawerLayout>
+</FrameLayout>
