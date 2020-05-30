@@ -3,6 +3,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_gravity="top"
         xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/dark_accent2"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,17 +24,30 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="16dp"
             /> -->
-
+        <TextView
+            app:layout_constraintBottom_toTopOf="@id/hist_rec_view"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textLight"
+            android:text="@string/history"
+            android:layout_gravity="top"
+            android:id="@+id/hist_header"
+            android:layout_marginVertical="10sp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="24sp"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/hist_rec_view"
             tools:listitem="@layout/recyclerview_item"
             android:padding="5dp"
             android:scrollbars="vertical"
             android:background="@drawable/rect_view"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/hist_header"
             app:boxCornerRadiusTopStart="20dp"
             android:layout_margin="10sp"
             >

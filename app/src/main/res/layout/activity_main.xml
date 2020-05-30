@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:id="@+id/nav_drawer"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
         xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/dark_accent2"
         android:layout_width="match_parent"
@@ -32,78 +33,15 @@
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:scrollbars="vertical"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1"
             />
-        <!--Da aggiungere a FAB
-            android:src="@drawable/ic_my_icon"
-            android:contentDescription="@string/submit" -->
-
-        <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="16dp"
-            /> -->
-
-        <!--<view class="androidx.appcompat.app.AlertController$RecycleListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rect_view"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintBottom_toTopOf="@id/button_view"
-            app:boxCornerRadiusTopStart="20dp"
-            android:layout_margin="10sp"
-            >
-        </view>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:id="@+id/button_view"
-            android:background="@drawable/rect_view"
-            android:layout_marginHorizontal="10sp"
-            android:layout_marginBottom="10sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <Button
-            android:text="@string/home_button_camera"
-            android:id="@+id/button_camera"
-            style="@style/button_h"
-            android:drawableRight="@drawable/ic_camera_alt_black_24dp"
-            android:onClick="camera"
-            android:layout_marginTop="20sp"
-            android:layout_marginBottom="20sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1"
-            app:layout_constraintHorizontal_bias="0.20"
-            />
-
-        <Button
-            android:id="@+id/button_galley"
-            android:text="@string/home_button_galley"
-            style="@style/button_h"
-            android:drawableRight="@drawable/ic_image_black_24dp"
-            android:onClick="gallery"
-            android:layout_marginBottom="20sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.80"
-            app:layout_constraintVertical_bias="1"
-            />
-        </androidx.constraintlayout.widget.ConstraintLayout>-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:background="@color/colorPrimary"
+        android:background="@color/dark_accent1"
+        app:itemTextColor="@color/textLight"
         android:layout_height="match_parent"
         android:id="@+id/navigation"
         android:layout_width="wrap_content"

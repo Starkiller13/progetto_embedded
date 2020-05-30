@@ -29,6 +29,7 @@ public class T2SFragment extends Fragment {
     private View view;
     private TextToSpeech t2s;
     private TextView tw;
+    private int j = 0;
     private HistoryViewModel mHistoryViewModel;
     String txt = null;
     Spinner lang_spinner;
@@ -39,6 +40,7 @@ public class T2SFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         mHistoryViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
         view = inflater.inflate(R.layout.fragment_t2s, container, false);
         t2s=new TextToSpeech(getContext(), status -> {
@@ -89,10 +91,14 @@ public class T2SFragment extends Fragment {
         Button add = (Button) view.findViewById(R.id.button_add_history);
         add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView t = v.findViewById(R.id.t2s_text);
-                mHistoryViewModel.insert(new History(tw.getText().toString()));
+                if (j == 0) {
+                    mHistoryViewModel.insert(new History(tw.getText().toString()));
+                    Toast.makeText(getContext(), "Added to History", Toast.LENGTH_SHORT).show();
+                    j++;
+                } else
+                    Toast.makeText(getContext(), "Already added", Toast.LENGTH_SHORT).show();
             }
-        });
+            });
 
         return view;
     }

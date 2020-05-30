@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -35,10 +36,9 @@ public class MainActivity extends AppCompatActivity implements
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     final String TAG = "main_act";
+    final String HOME_TAG = "home_tag";
     private DrawerLayout navDrawer;
     private NavigationView mNavigationView;
-    private FrameLayout f;
-    private ConstraintLayout.LayoutParams params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,37 +60,8 @@ public class MainActivity extends AppCompatActivity implements
         if (mNavigationView != null) {
             mNavigationView.setNavigationItemSelectedListener(this);
         }
-
-        f = findViewById(R.id.fragment_container);
-        params = (ConstraintLayout.LayoutParams) f.getLayoutParams();
-
-        String i = getIntent().getStringExtra("result");
-        /*Gestisco il ritorno a main activity da Camera Gallery Activity
-        * l'interfaccia è gestita da fragment quindi devo capire quale fragment usare
-        *
-        * */
-        if(i!=null){
-            //viene passato un intent da Camera_Gallery_activity
-            Log.v(TAG,i);
-            //E' ridondante ma non so se dovrò fare altro più avanti
-            if(i.compareTo("true")==0) {
-                String txt = getIntent().getStringExtra("message");
-                Bundle bundle = new Bundle();
-                bundle.putString("text", txt);
-                //Creo il fragment T"SFragment
-                T2SFragment frag = new T2SFragment();
-                frag.setArguments(bundle);
-                params.verticalBias=0.1f;
-                f.setLayoutParams(params);
-                //Imposto il fragment nel FrameView
-                getSupportFragmentManager().beginTransaction().replace(f.getId(), frag).commit();
-            }
-        }else{
-            params.verticalBias=1f;
-            f.setLayoutParams(params);
-            //Imposto il fragment Home_Fragment nel FrameView
-            getSupportFragmentManager().beginTransaction().replace(f.getId(),new HomeFragment()).commit();
-        }
+        //Imposto il fragment Home_Fragment nel FrameView
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
     }
     @Override
     public void onBackPressed(){
@@ -125,31 +96,15 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    public void language(View view)
-    {
-
-    }
-
-    public void history(View view)
-    {
-        //PER LEGGERE LE ACTIVITY DAL DATABASE
-        //https://www.youtube.com/watch?v=Dik-sGDWTrE
-
-        //recyclerView
-    }
-
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        item.setChecked(!item.isChecked());
         int id = item.getItemId();
         if(id == R.id.home){
-            params.verticalBias=1f;
-            f.setLayoutParams(params);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).addToBackStack(HOME_TAG).commit();
         }
         else if (id == R.id.hist) {
-            params.verticalBias=0f;
-            f.setLayoutParams(params);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HistoryFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HistoryFragment()).addToBackStack(null).commit();
         } else if (id == R.id.lang) {
 
         } else if (id == R.id.settings) {
@@ -159,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

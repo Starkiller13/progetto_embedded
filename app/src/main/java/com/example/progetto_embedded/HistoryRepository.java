@@ -21,7 +21,7 @@ public class HistoryRepository {
     }
 
     LiveData<List<History>> getLatestTexts() {
-        return mAllTexts;
+        return mLatTexts;
     }
 
     void insert(History text)

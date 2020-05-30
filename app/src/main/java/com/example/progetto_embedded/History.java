@@ -28,7 +28,6 @@ public class History {
     {
         this.data = new Date().toString();
         this.text=text;
-        Log.v("History",text);
     }
     public int getId(){
         return this.id;

@@ -22,7 +22,9 @@
         android:id="@+id/image_view_1"
         android:layout_width="match_parent"
         android:layout_height="600dp"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:background="@drawable/rect_view"
@@ -39,6 +41,7 @@
         android:layout_height="wrap_content"
         android:onClick="onElaborateClick"
         android:paddingHorizontal="20sp"
+        app:layout_constraintVertical_bias="1"
         android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
         app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -24,6 +24,6 @@ public interface HistoryDao{
     @Query("SELECT * FROM history_table ORDER BY id DESC")
     LiveData<List<History>> getOrderedTexts();
 
-    @Query("SELECT * FROM history_table ORDER BY id DESC LIMIT 5")
+    @Query("SELECT * FROM history_table ORDER BY id DESC LIMIT 8")
     LiveData<List<History>> getLastOrderedTexts();
 }
