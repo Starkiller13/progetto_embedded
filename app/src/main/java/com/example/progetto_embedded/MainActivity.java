@@ -12,9 +12,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 import android.view.View;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -22,8 +22,10 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
     final String TAG = "main_act";
     final String HOME_TAG = "home_tag";
+    private int prev_frag = 0;
     private DrawerLayout navDrawer;
     private NavigationView mNavigationView;
 
@@ -61,7 +63,9 @@ public class MainActivity extends AppCompatActivity implements
             bundle.putBoolean("hb_visible",true);
             bundle.putString("text",i);
             t2s.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,t2s).commit();
+            FragmentTransaction manager =  getSupportFragmentManager().beginTransaction();
+            manager.setCustomAnimations(R.anim.enter_right,R.anim.exit_left,R.anim.enter_left,R.anim.exit_right);
+            manager.replace(R.id.fragment_container,t2s).commit();
         }else
             //Caso avvio la app
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
@@ -122,22 +126,35 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         item.setChecked(!item.isChecked());
+        FragmentTransaction manager =  getSupportFragmentManager().beginTransaction();
+
         int id = item.getItemId();
         if(id == R.id.home){
-            getSupportFragmentManager().beginTransaction()
+            if(prev_frag!=0)
+                manager.setCustomAnimations(R.anim.enter_bottom,R.anim.exit_top,R.anim.enter_top,R.anim.exit_bottom)
                     .replace(R.id.fragment_container,new HomeFragment())
                     .addToBackStack(HOME_TAG).commit();
+            else
+                manager.replace(R.id.fragment_container,new HomeFragment())
+                        .addToBackStack(HOME_TAG).commit();
+            prev_frag = 0;
         }
         else if (id == R.id.hist) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container,new HistoryFragment())
-                    .addToBackStack(null).commit();
+            if(prev_frag<1)
+                manager.setCustomAnimations(R.anim.enter_top,R.anim.exit_bottom,R.anim.enter_bottom,R.anim.exit_top)
+                        .replace(R.id.fragment_container,new HistoryFragment()).commit();
+            else if(prev_frag>1)
+                manager.setCustomAnimations(R.anim.enter_bottom,R.anim.exit_top,R.anim.enter_top,R.anim.exit_bottom)
+                        .replace(R.id.fragment_container,new HistoryFragment()).commit();
+            prev_frag = 1;
+
         } else if (id == R.id.lang) {
 
         } else if (id == R.id.settings) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new SettingsFragment())
-                    .addToBackStack(null).commit();
+            if(prev_frag<3)
+                manager.setCustomAnimations(R.anim.enter_top,R.anim.exit_bottom,R.anim.enter_bottom,R.anim.exit_top)
+                        .replace(R.id.fragment_container, new SettingsFragment()).commit();
+            prev_frag = 3;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_drawer);
         drawer.closeDrawer(GravityCompat.START);

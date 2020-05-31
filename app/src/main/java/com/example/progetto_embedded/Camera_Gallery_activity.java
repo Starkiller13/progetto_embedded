@@ -96,6 +96,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             t2s.putExtra("result","true");
             t2s.putExtra("message", str);
             startActivityForResult(t2s,0);
+            deleteTempFiles(getExternalFilesDir(Environment.DIRECTORY_PICTURES));
         }
     }
 
@@ -157,7 +158,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
 
     @Override protected void onDestroy() {
         super.onDestroy();
-        if(!isChangingConfigurations()&&getExternalFilesDir(Environment.DIRECTORY_PICTURES)!=null) {
+        if (!isChangingConfigurations() && getExternalFilesDir(Environment.DIRECTORY_PICTURES) != null) {
             deleteTempFiles(getExternalFilesDir(Environment.DIRECTORY_PICTURES));
         }
     }
@@ -165,7 +166,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     /*
     *   Routine per eliminare i file temporanei alla chiusura dell'activity
     */
-    private boolean deleteTempFiles(File file) {
+    protected static boolean deleteTempFiles(File file) {
         if (file.isDirectory()) {
             File[] files = file.listFiles();
             if (files != null) {

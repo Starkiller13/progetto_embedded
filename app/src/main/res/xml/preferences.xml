@@ -2,9 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
-    <androidx.preference.SwitchPreference
-        app:key="Theme"
-        app:title="Switch Theme"
-        android:defaultValue="true"/>
+    <PreferenceCategory
+        android:title="Layout Settings">
+        <androidx.preference.SwitchPreference
+            app:title="Switch Theme"
+            app:key="Theme"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
