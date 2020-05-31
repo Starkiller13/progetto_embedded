@@ -3,13 +3,9 @@ package com.example.progetto_embedded;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.util.SparseArray;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
@@ -19,6 +15,7 @@ public class staticOCR_t2s extends AppCompatActivity {
     public static StringBuilder elaborate_button(String currentPhotoPath, Context context)
     {
         StringBuilder st = new StringBuilder();
+        Log.v("PIPPO", currentPhotoPath);
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
             TextRecognizer rec = new TextRecognizer.Builder(context).build();
             if(!rec.isOperational()){

@@ -1,8 +1,7 @@
-//NOTA BENE: quando si scarta la foto, si viene mandati ad una UI in cui sono presenti solo process e hear
-
 package com.example.progetto_embedded;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,10 +34,13 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_gallery_activity);
+
+        //Setup Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Back action al posto di nav drawer open toggle
 
+        //Gestisco l'intent mandato da Main_Activity
         Intent intent = getIntent();
         int act = intent.getIntExtra("activity",0);
         Log.v(TAG, "valore di act: "+ act);
@@ -78,6 +81,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     * il fragment per la visualizzazione e la riproduzione audio del testo trascritto
     */
     public void onElaborateClick(View view) {
+        //Caso limite, non si verifica mai(in teoria)
         if (currentPhotoPath == null) {
             Toast myToast = Toast.makeText(this, "No image found", Toast.LENGTH_SHORT);
             myToast.show();
@@ -96,7 +100,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     }
 
     /*
-    *   Crea un file temporaneo in cui salvare l'immagine scattata
+    *   Crea un file temporaneo in cui salvare l'immagine scattata o scelta
     */
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -119,18 +123,35 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.v(TAG,"Result code: "+resultCode);
+        //Non è stata fatta alcuna azione, torno a mainactivity
         if(resultCode==0){
             startActivity(new Intent(this,MainActivity.class));
         }
+        //Immagine Scattata, la faccio visualizzare nella view apposita
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             imageView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath));
         }
+        /*
+        * immagine scelta, la faccio visualizzare e poi la salvo in un file temporaneo
+        * L'ultimo passaggio mi serve perchè le ultime versioni di android non mi
+        * restituiscono un absolute path e nemmeno l'estensione del file
+        */
         else if(requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-                imageUri = data.getData();
-                Log.v(TAG,imageUri.getPath().substring(4));
-                ImageView imageView = findViewById(R.id.image_view_1);
-                imageView.setImageURI(imageUri);
-                currentPhotoPath=imageUri.getPath().substring(5);//i primi 4 caratteri non mi servono ("/raw")
+            imageUri =data.getData();
+            ImageView imageView = findViewById(R.id.image_view_1);
+            imageView.setImageURI(imageUri);
+            File f=null;
+            FileOutputStream fout = null;
+            Bitmap bitmap;
+            try {
+                 f = createImageFile();
+                 fout = new FileOutputStream(f);
+                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
+                 bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
+                 fout.flush(); // Not really required
+                 fout.close();
+            }catch(Exception e){}
+            currentPhotoPath= f.getAbsolutePath();
         }
     }
 

@@ -42,6 +42,7 @@ public class HistoryFragment extends Fragment {
                 String txt = adapter.getText(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("text", txt);
+                bundle.putBoolean("hb_visible",false);
                 T2SFragment frag = new T2SFragment();
                 frag.setArguments(bundle);
                 FragmentTransaction manager =  getParentFragmentManager().beginTransaction();

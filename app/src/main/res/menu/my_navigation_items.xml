@@ -24,6 +24,6 @@
             android:id="@+id/settings"
             android:checked="false"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Settingss" />
+            android:title="Settings" />
     </group>
 </menu>

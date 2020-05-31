@@ -3,33 +3,20 @@ package com.example.progetto_embedded;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.provider.MediaStore;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
@@ -44,11 +31,13 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Setup Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Setup Navigation Drawer
         navDrawer = findViewById(R.id.nav_drawer);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,navDrawer,toolbar,
                 R.string.navigation_drawer_open,
@@ -60,9 +49,29 @@ public class MainActivity extends AppCompatActivity implements
         if (mNavigationView != null) {
             mNavigationView.setNavigationItemSelectedListener(this);
         }
-        //Imposto il fragment Home_Fragment nel FrameView
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+
+        /*  Gestisco 2 casi: sto avviando la app oppure sto tornando indietro da
+        *   Camera_Gallery_activity
+        */
+        String i = getIntent().getStringExtra("message");
+        if(i!=null){
+            //Caso Camera_Gallery_activity
+            Fragment t2s = new T2SFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("hb_visible",true);
+            bundle.putString("text",i);
+            t2s.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,t2s).commit();
+        }else
+            //Caso avvio la app
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
+
+    /*
+    *   Se il drawer è aperto e schiaccio back lo chiude
+    */
     @Override
     public void onBackPressed(){
         if(navDrawer.isDrawerOpen(GravityCompat.START)){
@@ -71,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements
         super.onBackPressed();
     }
 
+    /*
+     *   Vedo se la app ha i permessi di Archiviazione e, in caso positivo, avvio Camera_Gallery_Activity
+     *   con una variabile ausiliaria negli extra (mi serve per uno switch case: "activity": 1 serve per marcare
+     *   l'azione di Cattura nell'altra activity)
+     */
     public void camera(View view)
     {
         //Controllo di avere i permessi
@@ -84,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    /*
+    *   Vedo se la app ha i permessi di Archiviazione e, in caso positivo, avvio Camera_Gallery_Activity
+    *   con una variabile ausiliaria negli extra (mi serve per uno switch case: "activity": 0 serve per marcare
+    *   l'azione di Pick_Image nell'altra activity)
+    */
     public void gallery(View view)
     {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -96,52 +115,40 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    /*
+    * Listener per gestire le transizioni dei fragment
+    * quando seleziono un elemento nel menu laterale
+    */
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         item.setChecked(!item.isChecked());
         int id = item.getItemId();
         if(id == R.id.home){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).addToBackStack(HOME_TAG).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container,new HomeFragment())
+                    .addToBackStack(HOME_TAG).commit();
         }
         else if (id == R.id.hist) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HistoryFragment()).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container,new HistoryFragment())
+                    .addToBackStack(null).commit();
         } else if (id == R.id.lang) {
 
         } else if (id == R.id.settings) {
-
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new SettingsFragment())
+                    .addToBackStack(null).commit();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_drawer);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     //Check permission
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
+            //Permessi per l'uso della fotocamera
             case MY_PERMISSIONS_REQUEST_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
                 Intent i = new Intent(this,Camera_Gallery_activity.class);
@@ -158,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements
                 }
             }
             break;
+
+            //richiesta dei permessi per l'accesso ai file del dispositivo
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
                     // If request is cancelled, the result arrays are empty.
                     Intent i = new Intent(this,Camera_Gallery_activity.class);

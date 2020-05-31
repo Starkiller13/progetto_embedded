@@ -1,13 +1,9 @@
 package com.example.progetto_embedded;
 
-import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.speech.tts.TextToSpeech;
-import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,16 +15,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 
 public class T2SFragment extends Fragment {
     private View view;
     private TextToSpeech t2s;
     private TextView tw;
+    private boolean hb_visible = true;
     private int j = 0;
     private HistoryViewModel mHistoryViewModel;
     String txt = null;
@@ -51,6 +46,14 @@ public class T2SFragment extends Fragment {
         });
         tw = (TextView) view.findViewById(R.id.textbox);
         txt = getArguments().getString("text");
+        hb_visible = getArguments().getBoolean("hb_visible");
+        Log.v("hb_visible:", "" + hb_visible);
+        Button b = view.findViewById(R.id.button_add_history);
+        if(!hb_visible){
+            b.setVisibility(View.INVISIBLE);
+        }else{
+            b.setVisibility(View.VISIBLE);
+        }
         tw.setText(txt);
         tw.setMovementMethod(new ScrollingMovementMethod());
         // Inflate the layout for this fragment
