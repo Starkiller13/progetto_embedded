@@ -6,7 +6,7 @@
                 android:top="5dp"
                 android:right="5dp"
                 android:bottom="5dp" />
-            <solid android:color="@color/colorPrimary" />
+            <solid android:color="@color/primaryColor" />
         </shape>
     </item>
     <item android:state_selected="true">
@@ -16,7 +16,7 @@
                 android:right="2dp"
                 android:bottom="5dp" />
             <corners android:radius="5dp"/>
-            <solid android:color="@color/colorTertiary" />
+            <solid android:color="@color/primaryDarkColor" />
         </shape>
     </item>
 

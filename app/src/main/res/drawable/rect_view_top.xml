@@ -4,6 +4,7 @@
         android:top="2dp"
         android:right="2dp"
         android:bottom="2dp" />
-    <corners android:radius="5dp" />
-    <solid android:color="@color/dark_accent1" />
+    <corners android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp"/>
+    <solid android:color="@color/primaryLightColor" />
 </shape>

@@ -1,8 +1,8 @@
 package com.example.progetto_embedded;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -10,19 +10,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
     private View view;
+    private List<Integer> del_list = new ArrayList<Integer>();
     private RecyclerView recyclerView;
     private HistoryViewModel mHistoryViewModel;
     @Override
@@ -31,6 +37,7 @@ public class HistoryFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_history, container, false);
         Context context = view.getContext();
+
         recyclerView = view.findViewById(R.id.hist_rec_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         final HistoryListAdapter adapter = new HistoryListAdapter(context);
@@ -53,7 +60,32 @@ public class HistoryFragment extends Fragment {
         adapter.setOnItemLongClickListener(new HistoryListAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(int position) {
+                view.findViewById(R.id.hist_fab).setVisibility(View.VISIBLE);
+                int i=adapter.getId(position);
+                if(del_list.contains(i))
+                    del_list.remove(Integer.valueOf(i));
+                else
+                    del_list.add(i);
+                if(del_list.isEmpty())
+                    view.findViewById(R.id.hist_fab).setVisibility(View.INVISIBLE);
+                else
+                    view.findViewById(R.id.hist_fab).setVisibility(View.VISIBLE);
                 Log.v(TAG,"Long Clicked");
+            }
+        });
+        FloatingActionButton a = view.findViewById(R.id.hist_fab);
+        a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!del_list.isEmpty())
+                    mHistoryViewModel.deleteList(del_list);
+                del_list = new ArrayList<>();
+                view.findViewById(R.id.hist_fab).setVisibility(View.INVISIBLE);
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
 

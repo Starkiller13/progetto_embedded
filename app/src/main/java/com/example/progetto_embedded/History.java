@@ -32,9 +32,7 @@ public class History {
     public int getId(){
         return this.id;
     }
-    public History getHistory(){
-        return this;
-    }
+
     public String getData(){
         return this.data;
     }

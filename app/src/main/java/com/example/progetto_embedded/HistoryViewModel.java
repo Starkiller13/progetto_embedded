@@ -19,6 +19,12 @@ public class HistoryViewModel extends AndroidViewModel {
     }
     LiveData<List<History>> getAllTexts() {return mAllTexts;}
 
+    void deleteList(List<Integer> list){
+        for(int i:list){
+            mRepository.delete(mRepository.getHistory(i));
+        }
+    }
+
     LiveData<List<History>> getLatestTexts() {return mLatTexts;}
 
     void insert(History text){mRepository.insert(text);}

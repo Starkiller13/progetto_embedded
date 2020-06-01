@@ -2,6 +2,7 @@ package com.example.progetto_embedded;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import com.google.android.material.navigation.NavigationView;
@@ -14,8 +15,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreference;
+
 import android.view.View;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements
@@ -28,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements
     private int prev_frag = 0;
     private DrawerLayout navDrawer;
     private NavigationView mNavigationView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements
         *   Camera_Gallery_activity
         */
         String i = getIntent().getStringExtra("message");
+        String j = getIntent().getStringExtra("ThemeChanged");
         if(i!=null){
             //Caso Camera_Gallery_activity
             Fragment t2s = new T2SFragment();
@@ -65,16 +69,32 @@ public class MainActivity extends AppCompatActivity implements
             t2s.setArguments(bundle);
             FragmentTransaction manager =  getSupportFragmentManager().beginTransaction();
             manager.setCustomAnimations(R.anim.enter_right,R.anim.exit_left,R.anim.enter_left,R.anim.exit_right);
-            manager.replace(R.id.fragment_container,t2s).commit();
+            manager.add(R.id.fragment_container,t2s).commit();
+        }else if(j!=null) {
+            FrameLayout f = findViewById(R.id.fragment_container);
+            if(j.equals("true")){
+                f.setBackgroundResource(R.color.LightBackground);
+            }
+            else{
+                f.setBackgroundResource(R.color.DarkBackground);
+            }
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new HomeFragment()).commit();
         }else
             //Caso avvio la app
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new HomeFragment()).commit();
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean checked = sharedPreferences.getBoolean("Theme", true);
+        if(checked){
+            FrameLayout f = findViewById(R.id.fragment_container);
+            setTheme(R.style.AppThemeDark);
+            f.setBackgroundResource(R.color.DarkBackground);
+        }
     }
 
     /*
-    *   Se il drawer è aperto e schiaccio back lo chiude
+    *   Se il drawer è aperto e se clicco back lo chiude
     */
     @Override
     public void onBackPressed(){

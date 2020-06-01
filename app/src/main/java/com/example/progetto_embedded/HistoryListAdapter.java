@@ -18,13 +18,10 @@ package com.example.progetto_embedded;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -33,55 +30,46 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     class HistoryViewHolder extends RecyclerView.ViewHolder {
         private final TextView wordItemView;
-        private boolean isSelected;
         private HistoryViewHolder(View itemView) {
             super(itemView);
             wordItemView = itemView.findViewById(R.id.textView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mListener!=null){
-                        int position = getAdapterPosition();
-                        if(position!= RecyclerView.NO_POSITION)
-                            mListener.onItemClick(position);
-                    }
+            itemView.setSelected(false);
+            itemView.setOnClickListener(v -> {
+                if(mListener!=null){
+                    int position = getAdapterPosition();
+                    if(position!= RecyclerView.NO_POSITION)
+                        mListener.onItemClick(position);
                 }
             });
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (mLongListener != null) {
-                        isSelected = !itemView.isSelected();
-                        itemView.setSelected(isSelected);
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION)
-                            mLongListener.onItemLongClick(position);
-                    }
-                    return true;
+            itemView.setOnLongClickListener(v -> {
+                if (mLongListener != null) {
+                    itemView.setSelected(!itemView.isSelected());
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION)
+                        mLongListener.onItemLongClick(position);
+
                 }
+                return true;
             });
+        }
+
+        private void updateView(){
+            itemView.setSelected(false);
         }
     }
 
-    public interface OnItemClickListener{
-        void onItemClick(int position);
-    }
+    public interface OnItemClickListener{ void onItemClick(int position);}
 
-    public interface OnItemLongClickListener{
-        void onItemLongClick(int position);
-    }
-
-
+    public interface OnItemLongClickListener{ void onItemLongClick(int position);}
 
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener listener){
-        mLongListener = listener;
-    }
+    public void setOnItemLongClickListener(OnItemLongClickListener listener){ mLongListener = listener; notifyDataSetChanged(); }
+
     private OnItemClickListener mListener;
     private OnItemLongClickListener mLongListener;
     private final LayoutInflater mInflater;
@@ -100,11 +88,14 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         return mWords.get(position).getText();
     }
 
+    public int getId(int position){ return  mWords.get(position).getId();}
+
     @Override
     public void onBindViewHolder(HistoryViewHolder holder, int position) {
         if (mWords != null) {
             History current = mWords.get(position);
             holder.wordItemView.setText(current.getData() + "\n" + current.getText());
+            holder.updateView();
         } else {
             // Covers the case of data not being ready yet.
             holder.wordItemView.setText("No Word");

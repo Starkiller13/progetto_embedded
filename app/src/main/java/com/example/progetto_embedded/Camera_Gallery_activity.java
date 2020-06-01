@@ -26,6 +26,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     private static final String TAG = "Camera_Gallery_activity";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PICK_IMAGE=100;
+    private boolean first_click = true;
     private ImageView imageView = null;
     private Uri imageUri;
     private String currentPhotoPath = null;
@@ -85,7 +86,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         if (currentPhotoPath == null) {
             Toast myToast = Toast.makeText(this, "No image found", Toast.LENGTH_SHORT);
             myToast.show();
-        } else {
+        } else if(first_click){
             //when I press the button process, go to Text2Speech activity
             //make an intent
             StringBuilder st = new StringBuilder();
@@ -97,6 +98,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             t2s.putExtra("message", str);
             startActivityForResult(t2s,0);
             deleteTempFiles(getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+            first_click = false;
         }
     }
 

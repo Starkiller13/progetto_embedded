@@ -1,5 +1,6 @@
 package com.example.progetto_embedded;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -96,11 +97,23 @@ public class T2SFragment extends Fragment {
 
         Button back = (Button) view.findViewById(R.id.button_back);
         back.setOnClickListener(v -> {
-            if(getParentFragmentManager().getBackStackEntryCount()==0)
+            if(getParentFragmentManager().getBackStackEntryCount()>0)
                 getParentFragmentManager().popBackStack();
-            FragmentTransaction manager =  getParentFragmentManager().beginTransaction();
-            manager.setCustomAnimations(R.anim.enter_left,R.anim.exit_right);
-            manager.replace(R.id.fragment_container,new HomeFragment()).commit();
+            else {
+                FragmentTransaction manager = getParentFragmentManager().beginTransaction();
+                manager.setCustomAnimations(R.anim.enter_left, R.anim.exit_right);
+                manager.replace(R.id.fragment_container, new HomeFragment()).commit();
+            }
+        });
+
+        Button share = (Button) view.findViewById(R.id.share);
+        share.setOnClickListener(v -> {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "--CorgiOCR GO--\n" + txt);
+            sendIntent.setType("text/plain");
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
         });
 
         return view;

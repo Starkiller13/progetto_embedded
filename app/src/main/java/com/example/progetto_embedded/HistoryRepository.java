@@ -24,9 +24,26 @@ public class HistoryRepository {
         return mLatTexts;
     }
 
+    History getHistory(int id){
+
+        List<History> tmp = mAllTexts.getValue();
+        History k = null;
+        for(History j:tmp){
+            if(j.getId()==id)
+                k = j;
+        }
+        return k;
+    }
+
     void insert(History text)
     {
         HistoryRoomDatabase.databaseWriteExecutor.execute(() -> {
             mHistoryDao.insert(text);});
+    }
+
+    void delete(History history){
+        HistoryRoomDatabase.databaseWriteExecutor.execute(() ->{
+            mHistoryDao.delete(history);
+        });
     }
 }

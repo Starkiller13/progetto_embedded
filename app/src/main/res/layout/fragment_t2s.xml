@@ -7,92 +7,76 @@
     tools:context=".T2SFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/t2s_player"
-        android:background="@drawable/rect_view"
+        android:background="@drawable/rect_view_top"
         android:layout_gravity="top"
         app:layout_constraintVertical_bias="0"
         android:layout_marginHorizontal="10sp"
-        android:layout_marginTop="30sp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/t2s_text"
+        app:layout_constraintBottom_toTopOf="@id/t2s_button_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:id="@+id/player_header"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="@string/text_to_speech_player"
+            android:textColor="@color/primaryColor"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginVertical="10sp"
+            />
         <ImageView
             android:id="@+id/image_play"
-            android:layout_width="70dp"
-            android:layout_height="81dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             app:layout_constraintHorizontal_bias="0.30"
             android:src="@drawable/ic_play_arrow_black_24dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0.25"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/player_header"
+            app:layout_constraintBottom_toTopOf="@id/textbox"
             android:contentDescription="@string/image_play"/>
 
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="81dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/image_stop"
             app:layout_constraintHorizontal_bias="0.70"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0.25"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/player_header"
             android:src="@drawable/ic_stop_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textbox"
             android:contentDescription="@string/image_stop"/>
-
-        <!--<Spinner
-            android:id="@+id/languages_spinner"
-            style="@style/button_h"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_stop" />-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <!-- Per provare e vedere se funziona
-    <Button
-        android:id="@+id/button_pause"
-        style="@style/button_h"
-        android:layout_marginTop="8dp"
-
-        android:text="@string/button_pause"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/t2s_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="10sp"
-        android:background="@drawable/rect_view"
-        app:layout_constraintBottom_toBottomOf="@id/t2s_button_nav"
-        app:layout_constraintTop_toBottomOf="@id/t2s_player">
         <TextView
             android:id="@+id/textbox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="80sp"
+            android:maxLines="20"
+            android:padding="10sp"
             android:scrollbars="vertical"
             android:textColor="@android:color/white"
+            app:layout_constraintVertical_bias="1"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/t2s_button_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="50sp"
         android:layout_marginHorizontal="10sp"
-        android:background="@drawable/rect_view"
+        android:background="@drawable/rect_view_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/t2s_text"
+        app:layout_constraintTop_toBottomOf="@id/t2s_player"
         app:layout_constraintVertical_bias="1"
         tools:layout_editor_absoluteX="0dp">
         <Button
@@ -100,8 +84,10 @@
             style="@style/button_h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="8dp"
             android:padding="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20sp"
             android:text="@string/button_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -113,8 +99,10 @@
             style="@style/button_h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="8dp"
             android:padding="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20sp"
             android:text="@string/button_add_history"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -126,8 +114,10 @@
             style="@style/button_h"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="8dp"
             android:padding="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20sp"
             android:text="@string/button_share"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
