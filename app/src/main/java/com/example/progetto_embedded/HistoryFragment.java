@@ -55,6 +55,7 @@ public class HistoryFragment extends Fragment {
                 FragmentTransaction manager =  getParentFragmentManager().beginTransaction();
                 manager.setCustomAnimations(R.anim.enter_right,R.anim.exit_left,R.anim.enter_left,R.anim.exit_right);
                 manager.replace(R.id.fragment_container,frag).addToBackStack(null).commit();
+                del_list = new ArrayList<>();
             }
         });
         adapter.setOnItemLongClickListener(new HistoryListAdapter.OnItemLongClickListener() {

@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="60sp"
         android:layout_margin="5sp"
-        android:textColor="@color/secondaryTextColor"
         android:background="@drawable/recycler_view_item_shape"
         />
 </LinearLayout>

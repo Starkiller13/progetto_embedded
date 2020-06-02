@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_cga"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Camera_Gallery_activity">
@@ -10,6 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
         app:title="@string/app_name"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,18 +21,20 @@
     <ImageView
         android:id="@+id/image_view_1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        android:layout_height="0sp"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/process_button_view"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:background="@drawable/rect_view_bottom"
-
+        android:id="@+id/process_button_view"
         android:layout_marginHorizontal="10sp"
         android:layout_height="wrap_content"
         app:layout_constraintVertical_bias="1"
-        app:layout_constraintTop_toBottomOf="@id/image_view_1"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
     <Button
         android:id="@+id/button_elaborate"
@@ -50,4 +54,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/primaryColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="178dp"
+        tools:layout_editor_absoluteY="342dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

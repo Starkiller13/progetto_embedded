@@ -17,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +29,7 @@ public class T2SFragment extends Fragment {
     private TextToSpeech t2s;
     private TextView tw;
     private boolean hb_visible = true;
+    private boolean fab_status = true;
     private int j = 0;
     private HistoryViewModel mHistoryViewModel;
     String txt = null;
@@ -59,7 +63,19 @@ public class T2SFragment extends Fragment {
         tw.setText(txt);
         tw.setMovementMethod(new ScrollingMovementMethod());
         // Inflate the layout for this fragment
-        ImageView play = (ImageView) view.findViewById(R.id.image_play);
+        FloatingActionButton fab = view.findViewById(R.id.t2s_fab);
+        fab.setOnClickListener(v -> {
+            if(fab_status){
+                t2s.speak(tw.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                fab.setImageResource(R.drawable.ic_stop_black_24dp);
+                fab_status = false;
+            }else{
+                t2s.stop();
+                fab.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                fab_status=true;
+            }
+        });
+        /*ImageView play = (ImageView) view.findViewById(R.id.image_play);
         play.setOnClickListener(v -> {
             //get the text from TextView
             String toSpeak = tw.getText().toString();
@@ -83,7 +99,7 @@ public class T2SFragment extends Fragment {
             else {
                 Toast.makeText(getContext(), "Not speaking", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         Button add = (Button) view.findViewById(R.id.button_add_history);
         add.setOnClickListener(v -> {

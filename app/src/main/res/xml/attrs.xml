@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-stylable name="ds">
+        <attr name="android:windowBackground" format ="color"/>
+        <attr name="primaryColor" format ="color"/>
+        <attr name="secondaryColor" format ="color"/>
+        <attr name="colorAccent" format = "color"/>
+        <attr name="primaryTextColor" format ="color"/>
+        <attr name="secondaryTextColor" format ="color"/>
+    </declare-stylable>
+
+
+</resources>

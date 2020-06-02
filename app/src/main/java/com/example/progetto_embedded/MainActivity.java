@@ -15,8 +15,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
-import androidx.preference.SwitchPreference;
-
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -29,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements
 
     final String TAG = "main_act";
     final String HOME_TAG = "home_tag";
+    private boolean checked;
     private int prev_frag = 0;
     private DrawerLayout navDrawer;
     private NavigationView mNavigationView;
@@ -40,20 +39,6 @@ public class MainActivity extends AppCompatActivity implements
         //Setup Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //Setup Navigation Drawer
-        navDrawer = findViewById(R.id.nav_drawer);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this,navDrawer,toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
-        toggle.syncState();
-        navDrawer.addDrawerListener(toggle);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation);
-        if (mNavigationView != null) {
-            mNavigationView.setNavigationItemSelectedListener(this);
-        }
 
         /*  Gestisco 2 casi: sto avviando la app oppure sto tornando indietro da
         *   Camera_Gallery_activity
@@ -71,25 +56,38 @@ public class MainActivity extends AppCompatActivity implements
             manager.setCustomAnimations(R.anim.enter_right,R.anim.exit_left,R.anim.enter_left,R.anim.exit_right);
             manager.add(R.id.fragment_container,t2s).commit();
         }else if(j!=null) {
-            FrameLayout f = findViewById(R.id.fragment_container);
-            if(j.equals("true")){
-                f.setBackgroundResource(R.color.LightBackground);
+            if(j.equals("false")){
+                setTheme(R.style.AppThemeLight);
             }
             else{
-                f.setBackgroundResource(R.color.DarkBackground);
+                setTheme(R.style.AppThemeDark);
             }
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new SettingsFragment()).commit();
         }else
             //Caso avvio la app
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new HomeFragment()).commit();
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean checked = sharedPreferences.getBoolean("Theme", true);
-        if(checked){
+        checked = sharedPreferences.getBoolean("Theme", true);
+        if(!checked){
             FrameLayout f = findViewById(R.id.fragment_container);
             setTheme(R.style.AppThemeDark);
             f.setBackgroundResource(R.color.DarkBackground);
+        }
+
+        //Setup Navigation Drawer
+        navDrawer = findViewById(R.id.nav_drawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this,navDrawer,toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        toggle.syncState();
+        navDrawer.addDrawerListener(toggle);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(this);
         }
     }
 
@@ -117,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements
         }else {
             //Avvio l'activity dedicata alla camera
             Intent i = new Intent(this, Camera_Gallery_activity.class);
+            i.putExtra("Theme",checked);
             i.putExtra("activity",(int)0);
             startActivityForResult(i, 0);
         }

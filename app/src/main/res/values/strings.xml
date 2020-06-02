@@ -26,4 +26,5 @@
     <string name="button_back">Back</string>
     <string name="button_share">Share</string>
     <string name="text_to_speech_player">Text to Speech Player</string>
+    <string name="recently_added">Recently Added</string>
 </resources>

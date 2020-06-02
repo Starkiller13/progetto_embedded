@@ -23,7 +23,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         switch(key)
         {
             case "Theme":
-                boolean isChecked = sharedPreferences.getBoolean("Theme",false);
+                boolean isChecked = sharedPreferences.getBoolean(KEY_PREF_APP_THEME,false);
                     Intent i = new Intent(getContext(),MainActivity.class);
                     i.putExtra("ThemeChanged",Boolean.toString(!isChecked));
                     startActivity(i);

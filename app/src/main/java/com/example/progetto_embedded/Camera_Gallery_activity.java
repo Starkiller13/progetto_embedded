@@ -3,6 +3,9 @@ package com.example.progetto_embedded;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.Path;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -26,6 +30,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     private static final String TAG = "Camera_Gallery_activity";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PICK_IMAGE=100;
+    private static final int PIC_CROP = 2;
     private boolean first_click = true;
     private ImageView imageView = null;
     private Uri imageUri;
@@ -61,6 +66,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                             image);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
                 }
                 break;
             }
@@ -72,8 +78,13 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                 break;
             }
         }
-
-
+        Boolean theme = intent.getBooleanExtra("Theme",false);
+        if(!theme){
+            setTheme(R.style.AppThemeDark);
+            findViewById(R.id.layout_cga).setBackgroundResource(R.color.DarkBackground);
+        }else{
+            setTheme(R.style.AppThemeLight);
+        }
     }
 
     /*
@@ -87,6 +98,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             Toast myToast = Toast.makeText(this, "No image found", Toast.LENGTH_SHORT);
             myToast.show();
         } else if(first_click){
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
             //when I press the button process, go to Text2Speech activity
             //make an intent
             StringBuilder st = new StringBuilder();
@@ -101,7 +113,23 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             first_click = false;
         }
     }
-
+    /*private void cropIntent(){
+        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+        //indicate image type and Uri
+        cropIntent.setDataAndType(Uri.parse(currentPhotoPath), "image/*");
+        //set crop properties
+        cropIntent.putExtra("crop", "true");
+        //indicate aspect of desired crop
+        cropIntent.putExtra("aspectX", 1);
+        cropIntent.putExtra("aspectY", 1);
+        //indicate output X and Y
+        cropIntent.putExtra("outputX", 1500);
+        cropIntent.putExtra("outputY", 1500);
+        //retrieve data on return
+        cropIntent.putExtra("return-data", true);
+        //start the activity - we handle returning in onActivityResult
+        startActivityForResult(cropIntent, PIC_CROP);
+    }*/
     /*
     *   Crea un file temporaneo in cui salvare l'immagine scattata o scelta
     */
@@ -121,6 +149,27 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         image.deleteOnExit();
         return image;
     }
+    /*
+    *   Metodo rotateImage, mi serve per ruotare l'immagine nel caso l'intent mi dia robe brutte
+    */
+    private Bitmap rotateImage(Bitmap bitmap){
+        ExifInterface exifInterface = null;
+        try{
+            exifInterface = new ExifInterface(currentPhotoPath);
+        }catch (IOException e){e.printStackTrace();}
+        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
+        Matrix matrix = new Matrix();
+        switch (orientation){
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case  ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+            default:
+        }
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
+        return newBitmap;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -132,7 +181,14 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         }
         //Immagine Scattata, la faccio visualizzare nella view apposita
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            imageView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath));
+            Bitmap bitmap = rotateImage(BitmapFactory.decodeFile(currentPhotoPath));
+            try {
+                FileOutputStream fout = new FileOutputStream(currentPhotoPath);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
+                fout.flush();
+                fout.close();
+            }catch (Exception w){}
+                imageView.setImageBitmap(bitmap);
         }
         /*
         * immagine scelta, la faccio visualizzare e poi la salvo in un file temporaneo
@@ -151,8 +207,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                  fout = new FileOutputStream(f);
                  bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
                  bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
-                 fout.flush(); // Not really required
-                 fout.close();
+
             }catch(Exception e){}
             currentPhotoPath= f.getAbsolutePath();
         }

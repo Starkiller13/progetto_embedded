@@ -6,8 +6,6 @@
     android:id="@+id/nav_drawer"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -19,9 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/app_name"
-            app:titleTextColor="@color/primaryTextColor"
-            android:background="@color/primaryColor"
-            android:theme="@style/AppThemeLight"
+            app:titleTextColor="@color/secondaryTextColor"
+            android:background="?attr/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +34,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
     </LinearLayout>
-
     <com.google.android.material.navigation.NavigationView
         android:background="@color/primaryLightColor"
         app:itemTextColor="@color/secondaryTextColor"

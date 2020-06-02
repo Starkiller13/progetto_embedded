@@ -94,7 +94,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public void onBindViewHolder(HistoryViewHolder holder, int position) {
         if (mWords != null) {
             History current = mWords.get(position);
-            holder.wordItemView.setText(current.getData() + "\n" + current.getText());
+            holder.wordItemView.setText(current.getData().substring(0,10) + "\n" + current.getText());
             holder.updateView();
         } else {
             // Covers the case of data not being ready yet.
