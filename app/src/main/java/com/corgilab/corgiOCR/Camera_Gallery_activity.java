@@ -1,10 +1,9 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.Path;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,10 +16,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.corgilab.corgiOCR.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -62,7 +63,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                 }
                 if (image != null) {
                     Uri photoURI = FileProvider.getUriForFile(this,
-                            "com.example.android.fileprovider",
+                            "com.corgilab.corgiOCR.fileprovider",
                             image);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -108,8 +109,8 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             Intent t2s = new Intent(this, MainActivity.class);
             t2s.putExtra("result","true");
             t2s.putExtra("message", str);
+            t2s.putExtra("imgPath",currentPhotoPath);
             startActivityForResult(t2s,0);
-            deleteTempFiles(getExternalFilesDir(Environment.DIRECTORY_PICTURES));
             first_click = false;
         }
     }
@@ -146,7 +147,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
-        image.deleteOnExit();
+        //image.deleteOnExit();
         return image;
     }
     /*
@@ -216,14 +217,14 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     @Override protected void onDestroy() {
         super.onDestroy();
         if (!isChangingConfigurations() && getExternalFilesDir(Environment.DIRECTORY_PICTURES) != null) {
-            deleteTempFiles(getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+            //deleteTempFiles(getExternalFilesDir(Environment.DIRECTORY_PICTURES));
         }
     }
 
     /*
     *   Routine per eliminare i file temporanei alla chiusura dell'activity
     */
-    protected static boolean deleteTempFiles(File file) {
+    public static boolean deleteTempFiles(File file) {
         if (file.isDirectory()) {
             File[] files = file.listFiles();
             if (files != null) {

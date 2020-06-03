@@ -1,4 +1,4 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR;
 
 import org.junit.Test;
 

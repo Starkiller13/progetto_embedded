@@ -1,7 +1,8 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR.HistoryManagement;
 
 import android.app.Application;
 import androidx.lifecycle.LiveData;
+
 import java.util.List;
 
 public class HistoryRepository {

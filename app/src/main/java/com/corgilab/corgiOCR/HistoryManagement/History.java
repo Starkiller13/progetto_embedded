@@ -1,6 +1,4 @@
-package com.example.progetto_embedded;
-
-import android.util.Log;
+package com.corgilab.corgiOCR.HistoryManagement;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

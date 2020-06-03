@@ -7,7 +7,7 @@
         android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HistoryFragment">
+        tools:context="com.corgilab.corgiOCR.HistoryFragment">
 
 
         <!--Da aggiungere a FAB
@@ -46,10 +46,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:scrollbars="vertical"
-            android:background="@drawable/rect_view_bottom"
             app:layout_constraintTop_toBottomOf="@id/hist_header"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="10sp"
             >
         </androidx.recyclerview.widget.RecyclerView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -58,7 +56,7 @@
         android:id="@+id/hist_fab"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:backgroundTint="@color/secondaryDarkColor"
+        android:backgroundTint="@color/secondaryColor"
         android:layout_margin="30sp"
         android:visibility="invisible"
         android:src="@drawable/ic_cancel_black_24dp"

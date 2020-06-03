@@ -1,4 +1,4 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR.HistoryManagement;
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -17,11 +17,14 @@ package com.example.progetto_embedded;
  */
 
 import android.content.Context;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.corgilab.corgiOCR.R;
 
 import java.util.List;
 
@@ -30,11 +33,19 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     class HistoryViewHolder extends RecyclerView.ViewHolder {
         private final TextView wordItemView;
+        private final TextView wordHeader;
+        private final CardView cardView;
+        private boolean isSelected = false;
         private HistoryViewHolder(View itemView) {
             super(itemView);
-            wordItemView = itemView.findViewById(R.id.textView);
 
-            itemView.setSelected(false);
+            wordItemView = itemView.findViewById(R.id.textView);
+            wordHeader = itemView.findViewById(R.id.tw_header);
+            cardView = itemView.findViewById(R.id.cardview);
+            if(!isSelected) {
+                cardView.setCardBackgroundColor(itemView.getContext().getResources().getColor(R.color.primaryLightColor));
+            }
+
             itemView.setOnClickListener(v -> {
                 if(mListener!=null){
                     int position = getAdapterPosition();
@@ -44,8 +55,12 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             });
 
             itemView.setOnLongClickListener(v -> {
+                this.isSelected = !this.isSelected;
                 if (mLongListener != null) {
-                    itemView.setSelected(!itemView.isSelected());
+                    if(isSelected)
+                        cardView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.secondaryColor));
+                    else
+                        cardView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.primaryLightColor));
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION)
                         mLongListener.onItemLongClick(position);
@@ -56,7 +71,8 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         }
 
         private void updateView(){
-            itemView.setSelected(false);
+            this.isSelected=false;
+            cardView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.primaryLightColor));
         }
     }
 
@@ -74,7 +90,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     private OnItemLongClickListener mLongListener;
     private final LayoutInflater mInflater;
     private List<History> mWords; // Cached copy of words
-    HistoryListAdapter(Context context) {
+    public HistoryListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
 
@@ -94,7 +110,8 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public void onBindViewHolder(HistoryViewHolder holder, int position) {
         if (mWords != null) {
             History current = mWords.get(position);
-            holder.wordItemView.setText(current.getData().substring(0,10) + "\n" + current.getText());
+            holder.wordItemView.setText(current.getText());
+            holder.wordHeader.setText(current.getData().substring(0,10));
             holder.updateView();
         } else {
             // Covers the case of data not being ready yet.
@@ -102,7 +119,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         }
     }
 
-    void setWords(List<History> words) {
+    public void setWords(List<History> words) {
         mWords = words;
         notifyDataSetChanged();
     }

@@ -1,6 +1,5 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,14 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.corgilab.corgiOCR.HistoryManagement.History;
+import com.corgilab.corgiOCR.HistoryManagement.HistoryListAdapter;
+import com.corgilab.corgiOCR.HistoryManagement.HistoryViewModel;
+import com.corgilab.corgiOCR.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
@@ -101,6 +102,8 @@ public class HistoryFragment extends Fragment {
                 adapter.setWords(words);
             }
         });
+        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.fragment_container),"Long press an item to select it", BaseTransientBottomBar.LENGTH_LONG);
+        snackbar.show();
         return view;
     }
 }

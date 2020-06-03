@@ -1,4 +1,4 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR.HistoryManagement;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,15 +17,15 @@ public class HistoryViewModel extends AndroidViewModel {
         mAllTexts=mRepository.getAllTexts();
         mLatTexts=mRepository.getLatestTexts();
     }
-    LiveData<List<History>> getAllTexts() {return mAllTexts;}
+    public LiveData<List<History>> getAllTexts() {return mAllTexts;}
 
-    void deleteList(List<Integer> list){
+    public void deleteList(List<Integer> list){
         for(int i:list){
             mRepository.delete(mRepository.getHistory(i));
         }
     }
 
-    LiveData<List<History>> getLatestTexts() {return mLatTexts;}
+    public LiveData<List<History>> getLatestTexts() {return mLatTexts;}
 
-    void insert(History text){mRepository.insert(text);}
+    public void insert(History text){mRepository.insert(text);}
 }

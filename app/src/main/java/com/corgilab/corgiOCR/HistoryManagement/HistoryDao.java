@@ -1,10 +1,11 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR.HistoryManagement;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+
 import java.util.List;
 
 @Dao
@@ -24,6 +25,6 @@ public interface HistoryDao{
     @Query("SELECT * FROM history_table ORDER BY id DESC")
     LiveData<List<History>> getOrderedTexts();
 
-    @Query("SELECT * FROM history_table ORDER BY id DESC LIMIT 8")
+    @Query("SELECT * FROM history_table ORDER BY id DESC LIMIT 6")
     LiveData<List<History>> getLastOrderedTexts();
 }

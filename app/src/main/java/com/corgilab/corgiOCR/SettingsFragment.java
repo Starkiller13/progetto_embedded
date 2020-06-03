@@ -1,12 +1,12 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreference;
+
+import com.corgilab.corgiOCR.R;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {

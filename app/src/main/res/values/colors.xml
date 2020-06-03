@@ -11,4 +11,5 @@
     <color name="LightBackground">#FFFFFF</color>
     <color name="DarkBackground">#1B1A1A</color>
     <color name="DarkAccentBg">#A8A4A4</color>
+    <color name="AppIconBGColor">#1834D3</color>
 </resources>

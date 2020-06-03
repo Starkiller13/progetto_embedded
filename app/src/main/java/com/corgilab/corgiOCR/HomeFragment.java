@@ -1,4 +1,4 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.corgilab.corgiOCR.HistoryManagement.History;
+import com.corgilab.corgiOCR.HistoryManagement.HistoryListAdapter;
+import com.corgilab.corgiOCR.HistoryManagement.HistoryViewModel;
+import com.corgilab.corgiOCR.R;
+
 import java.util.List;
 
 public class HomeFragment extends Fragment{

@@ -5,18 +5,28 @@
     android:id="@+id/layout_cga"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Camera_Gallery_activity">
+    tools:context="com.corgilab.corgiOCR.Camera_Gallery_activity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:title="@string/app_name"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    <RelativeLayout
         app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/toolbar_ct"
+        android:background="@drawable/toolbar_gradient">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            app:title="@string/app_name"
+            android:layout_marginTop="24dp"
+            app:titleTextColor="@color/secondaryTextColor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            >
+        </androidx.appcompat.widget.Toolbar></RelativeLayout>
 
     <ImageView
         android:id="@+id/image_view_1"
@@ -24,12 +34,11 @@
         android:layout_height="0sp"
         app:layout_constraintVertical_weight="1"
         app:layout_constraintVertical_bias="0"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_ct"
         app:layout_constraintBottom_toTopOf="@id/process_button_view"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@drawable/rect_view_bottom"
         android:id="@+id/process_button_view"
         android:layout_marginHorizontal="10sp"
         android:layout_height="wrap_content"

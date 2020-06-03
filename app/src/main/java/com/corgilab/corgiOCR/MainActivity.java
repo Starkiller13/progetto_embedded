@@ -1,10 +1,12 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
+import com.corgilab.corgiOCR.R;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements
             Bundle bundle = new Bundle();
             bundle.putBoolean("hb_visible",true);
             bundle.putString("text",i);
+            bundle.putString("imgPath",getIntent().getStringExtra("imgPath"));
             t2s.setArguments(bundle);
             FragmentTransaction manager =  getSupportFragmentManager().beginTransaction();
             manager.setCustomAnimations(R.anim.enter_right,R.anim.exit_left,R.anim.enter_left,R.anim.exit_right);
@@ -149,31 +152,16 @@ public class MainActivity extends AppCompatActivity implements
 
         int id = item.getItemId();
         if(id == R.id.home){
-            if(prev_frag!=0)
-                manager.setCustomAnimations(R.anim.enter_bottom,R.anim.exit_top,R.anim.enter_top,R.anim.exit_bottom)
-                    .replace(R.id.fragment_container,new HomeFragment())
-                    .addToBackStack(HOME_TAG).commit();
-            else
-                manager.replace(R.id.fragment_container,new HomeFragment())
-                        .addToBackStack(HOME_TAG).commit();
-            prev_frag = 0;
+            manager.replace(R.id.fragment_container, new HomeFragment()).commit();
         }
         else if (id == R.id.hist) {
-            if(prev_frag<1)
-                manager.setCustomAnimations(R.anim.enter_top,R.anim.exit_bottom,R.anim.enter_bottom,R.anim.exit_top)
-                        .replace(R.id.fragment_container,new HistoryFragment()).commit();
-            else if(prev_frag>1)
-                manager.setCustomAnimations(R.anim.enter_bottom,R.anim.exit_top,R.anim.enter_top,R.anim.exit_bottom)
-                        .replace(R.id.fragment_container,new HistoryFragment()).commit();
-            prev_frag = 1;
+            manager.replace(R.id.fragment_container, new HistoryFragment()).commit();
 
         } else if (id == R.id.lang) {
-
+            manager.replace(R.id.fragment_container, new LanguageFragment()).commit();
         } else if (id == R.id.settings) {
-            if(prev_frag<3)
-                manager.setCustomAnimations(R.anim.enter_top,R.anim.exit_bottom,R.anim.enter_bottom,R.anim.exit_top)
-                        .replace(R.id.fragment_container, new SettingsFragment()).commit();
-            prev_frag = 3;
+                manager.replace(R.id.fragment_container, new SettingsFragment()).commit();
+
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_drawer);
         drawer.closeDrawer(GravityCompat.START);

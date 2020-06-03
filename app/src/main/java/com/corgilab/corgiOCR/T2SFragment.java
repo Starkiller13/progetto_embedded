@@ -1,10 +1,15 @@
-package com.example.progetto_embedded;
+package com.corgilab.corgiOCR;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+
+import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -18,6 +23,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.corgilab.corgiOCR.HistoryManagement.History;
+import com.corgilab.corgiOCR.HistoryManagement.HistoryViewModel;
+import com.corgilab.corgiOCR.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -33,6 +41,7 @@ public class T2SFragment extends Fragment {
     private int j = 0;
     private HistoryViewModel mHistoryViewModel;
     String txt = null;
+    String imgPath = null;
     Spinner lang_spinner;
     Locale[] locales = Locale.getAvailableLocales();
     ArrayAdapter<String> aa;
@@ -47,11 +56,19 @@ public class T2SFragment extends Fragment {
         t2s=new TextToSpeech(getContext(), status -> {
             if (status != TextToSpeech.ERROR) {
                 //if there isn't any error, set the language
-                t2s.setLanguage(Locale.ITALIAN);
+                t2s.setLanguage(new Locale(getActivity().getPreferences(Context.MODE_PRIVATE).getString("TextToSpeechLanguage","it")));
             }
         });
         tw = (TextView) view.findViewById(R.id.textbox);
         txt = getArguments().getString("text");
+        imgPath = getArguments().getString("imgPath");
+        ImageView imgview = view.findViewById(R.id.t2s_imageView);
+        if(imgPath!=null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
+            imgview.setImageBitmap(bitmap);
+        }else{
+            imgview.setImageResource(R.drawable.t2s_header_img);
+        }
         hb_visible = getArguments().getBoolean("hb_visible");
         Log.v("hb_visible:", "" + hb_visible);
         Button b = view.findViewById(R.id.button_add_history);
@@ -75,31 +92,6 @@ public class T2SFragment extends Fragment {
                 fab_status=true;
             }
         });
-        /*ImageView play = (ImageView) view.findViewById(R.id.image_play);
-        play.setOnClickListener(v -> {
-            //get the text from TextView
-            String toSpeak = tw.getText().toString();
-            //if there isnt text in textview
-            if (toSpeak.equals("")) {
-                Toast.makeText(getContext(), "Please check the photo and try again", Toast.LENGTH_SHORT).show();
-            } else {
-                //speak text
-                t2s.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                return;
-            }
-
-        });
-        ImageView stop = (ImageView) view.findViewById(R.id.image_stop);
-        stop.setOnClickListener(v -> {
-            Log.v("STOP","pulsante stop cliccato");
-            if(t2s.isSpeaking()){
-                //if it's speaking, then stop it
-                t2s.stop();
-            }
-            else {
-                Toast.makeText(getContext(), "Not speaking", Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
         Button add = (Button) view.findViewById(R.id.button_add_history);
         add.setOnClickListener(v -> {
@@ -150,6 +142,7 @@ public class T2SFragment extends Fragment {
             t2s.shutdown();
         }
         super.onDetach();
+        Camera_Gallery_activity.deleteTempFiles(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES));
     }
 }
 
