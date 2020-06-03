@@ -16,9 +16,14 @@ package com.corgilab.corgiOCR.HistoryManagement;
  * limitations under the License.
  */
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +40,16 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         private final TextView wordItemView;
         private final TextView wordHeader;
         private final CardView cardView;
+        private final Drawable initialColor;
         private boolean isSelected = false;
+        @SuppressLint("ResourceType")
         private HistoryViewHolder(View itemView) {
             super(itemView);
 
             wordItemView = itemView.findViewById(R.id.textView);
             wordHeader = itemView.findViewById(R.id.tw_header);
             cardView = itemView.findViewById(R.id.cardview);
-            if(!isSelected) {
-                cardView.setCardBackgroundColor(itemView.getContext().getResources().getColor(R.color.primaryLightColor));
-            }
+            initialColor = cardView.getBackground();
 
             itemView.setOnClickListener(v -> {
                 if(mListener!=null){
@@ -56,11 +61,12 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
             itemView.setOnLongClickListener(v -> {
                 this.isSelected = !this.isSelected;
+                cardView.setSelected(isSelected);
                 if (mLongListener != null) {
                     if(isSelected)
                         cardView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.secondaryColor));
                     else
-                        cardView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.primaryLightColor));
+                        cardView.setBackground(initialColor);
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION)
                         mLongListener.onItemLongClick(position);
@@ -72,7 +78,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
         private void updateView(){
             this.isSelected=false;
-            cardView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.primaryLightColor));
         }
     }
 
@@ -86,6 +91,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     public void setOnItemLongClickListener(OnItemLongClickListener listener){ mLongListener = listener; notifyDataSetChanged(); }
 
+    private Resources.Theme theme;
     private OnItemClickListener mListener;
     private OnItemLongClickListener mLongListener;
     private final LayoutInflater mInflater;
@@ -98,6 +104,10 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
         return new HistoryViewHolder(itemView);
+    }
+
+    public void setTheme(Resources.Theme theme){
+        this.theme= theme;
     }
 
     public String getText(int position){

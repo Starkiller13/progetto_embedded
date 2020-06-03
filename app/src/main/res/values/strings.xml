@@ -27,4 +27,6 @@
     <string name="button_share">Share</string>
     <string name="text_to_speech_player">Text to Speech Player</string>
     <string name="recently_added">Recently Added</string>
+    <string name="t2s_selection">Select Text To Speech Language</string>
+    <string name="application_language">Application Language</string>
 </resources>

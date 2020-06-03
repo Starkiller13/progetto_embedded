@@ -5,5 +5,9 @@
         android:right="2dp"
         android:bottom="2dp" />
     <corners android:radius="3dp"/>
-    <solid android:color="?attr/colorPrimary" />
+    <gradient
+        android:startColor="?attr/colorPrimary"
+        android:endColor="?attr/colorSecondary"
+        android:angle="180"
+        />
 </shape>

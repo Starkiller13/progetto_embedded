@@ -56,7 +56,7 @@
         android:id="@+id/hist_fab"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:backgroundTint="@color/secondaryColor"
+        android:backgroundTint="?attr/colorSecondary"
         android:layout_margin="30sp"
         android:visibility="invisible"
         android:src="@drawable/ic_cancel_black_24dp"

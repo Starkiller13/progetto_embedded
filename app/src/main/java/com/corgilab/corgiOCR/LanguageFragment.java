@@ -48,21 +48,22 @@ public class LanguageFragment extends Fragment {
         for (Locale locale : t2s_locales) {
             int res = t2s.isLanguageAvailable(locale);
             if (res == TextToSpeech.LANG_COUNTRY_AVAILABLE){
-                languageAvailable.add(locale.getDisplayLanguage());
+                languageAvailable.add(locale.getDisplayLanguage() +" "+ locale.toString());
                 languageAvailableTag.add(locale.toString());
             }
         }
-
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, languageAvailable);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+        spinner.setSelection(getActivity().getPreferences(Context.MODE_PRIVATE).getInt("SpinnerPosition",1));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("TextToSpeechLanguage",languageAvailableTag.get(position));
+                editor.putInt("SpinnerPosition",position);
                 editor.commit();
                 }
 

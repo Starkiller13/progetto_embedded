@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment{
         recyclerView = view.findViewById(R.id.home_rec_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         final HistoryListAdapter adapter = new HistoryListAdapter(context);
+        adapter.setTheme(getActivity().getTheme());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new HistoryListAdapter.OnItemClickListener(){
             @Override

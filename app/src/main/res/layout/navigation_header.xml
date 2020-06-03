@@ -4,7 +4,7 @@
     android:layout_height="180dp"
     android:padding="16dp"
     android:gravity="bottom"
-    android:background="@color/secondaryColor"
+    android:background="@drawable/navbar_header_gradient"
     android:orientation="vertical">
 
     <ImageView

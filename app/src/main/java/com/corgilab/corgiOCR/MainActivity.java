@@ -36,6 +36,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        checked = sharedPreferences.getBoolean("DarkThemeOn", true);
+        if(checked){
+            setTheme(R.style.AppThemeDark);
+        }else{
+            setTheme(R.style.AppThemeLight);
+        }
         setContentView(R.layout.activity_main);
 
         //Setup Toolbar
@@ -45,39 +52,27 @@ public class MainActivity extends AppCompatActivity implements
         /*  Gestisco 2 casi: sto avviando la app oppure sto tornando indietro da
         *   Camera_Gallery_activity
         */
-        String i = getIntent().getStringExtra("message");
-        String j = getIntent().getStringExtra("ThemeChanged");
-        if(i!=null){
+
+        Intent prev = getIntent();
+        String i = prev.getStringExtra("message");
+        int j = prev.getIntExtra("settingsChanged",0);
+        if(i!=null) {
             //Caso Camera_Gallery_activity
             Fragment t2s = new T2SFragment();
             Bundle bundle = new Bundle();
-            bundle.putBoolean("hb_visible",true);
-            bundle.putString("text",i);
-            bundle.putString("imgPath",getIntent().getStringExtra("imgPath"));
+            bundle.putBoolean("hb_visible", true);
+            bundle.putString("text", i);
+            bundle.putString("imgPath", getIntent().getStringExtra("imgPath"));
             t2s.setArguments(bundle);
-            FragmentTransaction manager =  getSupportFragmentManager().beginTransaction();
-            manager.setCustomAnimations(R.anim.enter_right,R.anim.exit_left,R.anim.enter_left,R.anim.exit_right);
-            manager.add(R.id.fragment_container,t2s).commit();
-        }else if(j!=null) {
-            if(j.equals("false")){
-                setTheme(R.style.AppThemeLight);
-            }
-            else{
-                setTheme(R.style.AppThemeDark);
-            }
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new SettingsFragment()).commit();
-        }else
+            FragmentTransaction manager = getSupportFragmentManager().beginTransaction();
+            manager.setCustomAnimations(R.anim.enter_right, R.anim.exit_left, R.anim.enter_left, R.anim.exit_right);
+            manager.add(R.id.fragment_container, t2s).commit();
+        }
+        else if(j!=0)
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SettingsFragment()).commit();
+        else
             //Caso avvio la app
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new HomeFragment()).commit();
-
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        checked = sharedPreferences.getBoolean("Theme", true);
-        if(!checked){
-            FrameLayout f = findViewById(R.id.fragment_container);
-            setTheme(R.style.AppThemeDark);
-            f.setBackgroundResource(R.color.DarkBackground);
-        }
 
         //Setup Navigation Drawer
         navDrawer = findViewById(R.id.nav_drawer);

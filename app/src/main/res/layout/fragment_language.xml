@@ -4,21 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.corgilab.corgiOCR.LanguageFragment">
-
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/primaryColor"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:text="Text To Speech Language" />
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50sp"
-        android:id="@+id/spinner"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryColor"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/t2s_selection" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20sp"
+            android:id="@+id/spinner"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryColor"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/application_language" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="50sp"
+            android:id="@+id/lang_spinner"/>
+
+    </LinearLayout>
 
 </FrameLayout>
