@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
-import com.corgilab.corgiOCR.R;
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,7 +19,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements
     private boolean checked;
     private int prev_frag = 0;
     private DrawerLayout navDrawer;
-    private NavigationView mNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements
         );
         toggle.syncState();
         navDrawer.addDrawerListener(toggle);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        NavigationView mNavigationView = (NavigationView) findViewById(R.id.navigation);
         if (mNavigationView != null) {
             mNavigationView.setNavigationItemSelectedListener(this);
         }
@@ -165,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements
 
     //Check permission
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             //Permessi per l'uso della fotocamera
             case MY_PERMISSIONS_REQUEST_CAMERA: {

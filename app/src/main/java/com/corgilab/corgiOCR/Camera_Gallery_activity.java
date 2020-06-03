@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
+import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,15 +16,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.corgilab.corgiOCR.R;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class Camera_Gallery_activity extends AppCompatActivity {
@@ -34,21 +32,26 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     private static final int PIC_CROP = 2;
     private boolean first_click = true;
     private ImageView imageView = null;
-    private Uri imageUri;
     private String currentPhotoPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        boolean theme = intent.getBooleanExtra("Theme",false);
+        if(theme){
+            setTheme(R.style.AppThemeDark);
+        }else{
+            setTheme(R.style.AppThemeLight);
+        }
         setContentView(R.layout.camera_gallery_activity);
-
         //Setup Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Back action al posto di nav drawer open toggle
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);//Back action al posto di nav drawer open toggle
 
         //Gestisco l'intent mandato da Main_Activity
-        Intent intent = getIntent();
+
         int act = intent.getIntExtra("activity",0);
         Log.v(TAG, "valore di act: "+ act);
         switch (act){
@@ -60,15 +63,14 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                 try {
                     image = createImageFile();
                 } catch (IOException e) {
+                    break;
                 }
-                if (image != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this,
-                            "com.corgilab.corgiOCR.fileprovider",
-                            image);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.corgilab.corgiOCR.fileprovider",
+                        image);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
-                }
                 break;
             }
             //Ricerca foto
@@ -79,13 +81,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                 break;
             }
         }
-        Boolean theme = intent.getBooleanExtra("Theme",false);
-        if(!theme){
-            setTheme(R.style.AppThemeDark);
-            findViewById(R.id.layout_cga).setBackgroundResource(R.color.DarkBackground);
-        }else{
-            setTheme(R.style.AppThemeLight);
-        }
+
     }
 
     /*
@@ -158,6 +154,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         try{
             exifInterface = new ExifInterface(currentPhotoPath);
         }catch (IOException e){e.printStackTrace();}
+        assert exifInterface != null;
         int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
         Matrix matrix = new Matrix();
         switch (orientation){
@@ -168,8 +165,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                 matrix.setRotate(180);
             default:
         }
-        Bitmap newBitmap = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
-        return newBitmap;
+        return Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
     }
 
     @Override
@@ -188,7 +184,9 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
                 fout.flush();
                 fout.close();
-            }catch (Exception w){}
+            }catch (Exception w){
+                return;
+            }
                 imageView.setImageBitmap(bitmap);
         }
         /*
@@ -197,7 +195,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         * restituiscono un absolute path e nemmeno l'estensione del file
         */
         else if(requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-            imageUri =data.getData();
+            Uri imageUri = data.getData();
             ImageView imageView = findViewById(R.id.image_view_1);
             imageView.setImageURI(imageUri);
             File f=null;
@@ -206,10 +204,11 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             try {
                  f = createImageFile();
                  fout = new FileOutputStream(f);
-                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
+                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                  bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
 
             }catch(Exception e){}
+            assert f != null;
             currentPhotoPath= f.getAbsolutePath();
         }
     }
@@ -224,7 +223,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     /*
     *   Routine per eliminare i file temporanei alla chiusura dell'activity
     */
-    public static boolean deleteTempFiles(File file) {
+    public static void deleteTempFiles(File file) {
         if (file.isDirectory()) {
             File[] files = file.listFiles();
             if (files != null) {
@@ -237,7 +236,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                 }
             }
         }
-        return file.delete();
+        file.delete();
     }
 
 

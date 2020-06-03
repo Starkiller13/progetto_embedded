@@ -1,5 +1,6 @@
 package com.corgilab.corgiOCR;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,17 +32,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class T2SFragment extends Fragment {
     private View view;
     private TextToSpeech t2s;
     private TextView tw;
-    private boolean hb_visible = true;
     private boolean fab_status = true;
     private int j = 0;
     private HistoryViewModel mHistoryViewModel;
-    String txt = null;
-    String imgPath = null;
+    private String txt = null;
+    private String imgPath = null;
     Spinner lang_spinner;
     Locale[] locales = Locale.getAvailableLocales();
     ArrayAdapter<String> aa;
@@ -56,10 +57,11 @@ public class T2SFragment extends Fragment {
         t2s=new TextToSpeech(getContext(), status -> {
             if (status != TextToSpeech.ERROR) {
                 //if there isn't any error, set the language
-                t2s.setLanguage(new Locale(getActivity().getPreferences(Context.MODE_PRIVATE).getString("TextToSpeechLanguage","it")));
+                t2s.setLanguage(new Locale(requireActivity().getPreferences(Context.MODE_PRIVATE).getString("TextToSpeechLanguage","it")));
             }
         });
         tw = (TextView) view.findViewById(R.id.textbox);
+        assert getArguments() != null;
         txt = getArguments().getString("text");
         imgPath = getArguments().getString("imgPath");
         ImageView imgview = view.findViewById(R.id.t2s_imageView);
@@ -69,14 +71,8 @@ public class T2SFragment extends Fragment {
         }else{
             imgview.setImageResource(R.drawable.t2s_header_img);
         }
-        hb_visible = getArguments().getBoolean("hb_visible");
+        boolean hb_visible = getArguments().getBoolean("hb_visible");
         Log.v("hb_visible:", "" + hb_visible);
-        Button b = view.findViewById(R.id.button_add_history);
-        if(!hb_visible){
-            b.setVisibility(View.INVISIBLE);
-        }else{
-            b.setVisibility(View.VISIBLE);
-        }
         tw.setText(txt);
         tw.setMovementMethod(new ScrollingMovementMethod());
         // Inflate the layout for this fragment
@@ -94,6 +90,11 @@ public class T2SFragment extends Fragment {
         });
 
         Button add = (Button) view.findViewById(R.id.button_add_history);
+        if(!hb_visible){
+            add.setVisibility(View.INVISIBLE);
+        }else{
+            add.setVisibility(View.VISIBLE);
+        }
         add.setOnClickListener(v -> {
             if (j == 0) {
                 mHistoryViewModel.insert(new History(tw.getText().toString()));
@@ -142,7 +143,7 @@ public class T2SFragment extends Fragment {
             t2s.shutdown();
         }
         super.onDetach();
-        Camera_Gallery_activity.deleteTempFiles(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+        Camera_Gallery_activity.deleteTempFiles(Objects.requireNonNull(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
     }
 }
 

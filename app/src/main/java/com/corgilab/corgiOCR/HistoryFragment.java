@@ -7,22 +7,18 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.corgilab.corgiOCR.HistoryManagement.History;
 import com.corgilab.corgiOCR.HistoryManagement.HistoryListAdapter;
 import com.corgilab.corgiOCR.HistoryManagement.HistoryViewModel;
-import com.corgilab.corgiOCR.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +26,6 @@ public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
     private View view;
     private List<Integer> del_list = new ArrayList<Integer>();
-    private RecyclerView recyclerView;
     private HistoryViewModel mHistoryViewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,10 +34,10 @@ public class HistoryFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_history, container, false);
         Context context = view.getContext();
 
-        recyclerView = view.findViewById(R.id.hist_rec_view);
+        RecyclerView recyclerView = view.findViewById(R.id.hist_rec_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         final HistoryListAdapter adapter = new HistoryListAdapter(context);
-        adapter.setTheme(getActivity().getTheme());
+        adapter.setTheme(requireActivity().getTheme());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new HistoryListAdapter.OnItemClickListener(){
             @Override
@@ -84,7 +79,7 @@ public class HistoryFragment extends Fragment {
                     mHistoryViewModel.deleteList(del_list);
                 del_list = new ArrayList<>();
                 view.findViewById(R.id.hist_fab).setVisibility(View.INVISIBLE);
-                getActivity().runOnUiThread(new Runnable() {
+                requireActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         adapter.notifyDataSetChanged();
                     }
@@ -94,7 +89,6 @@ public class HistoryFragment extends Fragment {
 
         mHistoryViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
-        if(mHistoryViewModel!=null)
         mHistoryViewModel.getAllTexts().observe(getViewLifecycleOwner(), new Observer<List<History>>() {
 
             @Override
@@ -103,7 +97,7 @@ public class HistoryFragment extends Fragment {
                 adapter.setWords(words);
             }
         });
-        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.fragment_container),"Long press an item to select it", BaseTransientBottomBar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(requireActivity().findViewById(R.id.fragment_container),"Long press an item to select it", BaseTransientBottomBar.LENGTH_LONG);
         snackbar.show();
         return view;
     }

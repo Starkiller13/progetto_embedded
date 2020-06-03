@@ -10,7 +10,6 @@ import java.util.Date;
 @Entity(tableName="history_table")
 public class History {
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     @ColumnInfo(name = "id")
     private int id;
 
@@ -31,10 +30,12 @@ public class History {
         return this.id;
     }
 
+    @NonNull
     public String getData(){
         return this.data;
     }
 
+    @NonNull
     public String getText() {
         return this.text;
     }

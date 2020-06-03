@@ -9,5 +9,17 @@
             app:key="Theme"
             android:defaultValue="false"/>
     </PreferenceCategory>
+    <PreferenceCategory
+        app:title="Memory Management">
+        <Preference
+            app:title="Clean cache"
+            app:key="Cache"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="User Experience">
+        <Preference
+            app:title="Let us a Feedback"
+            app:key="Feedback"/>
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

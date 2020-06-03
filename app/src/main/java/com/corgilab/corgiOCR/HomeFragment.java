@@ -20,20 +20,19 @@ import com.corgilab.corgiOCR.HistoryManagement.HistoryViewModel;
 import com.corgilab.corgiOCR.R;
 
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment{
     private static final String TAG = "HomeFragment";
-    private View view;
-    private RecyclerView recyclerView;
-    private HistoryViewModel mHistoryViewModel;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         Context context = view.getContext();
-        recyclerView = view.findViewById(R.id.home_rec_view);
+        RecyclerView recyclerView = view.findViewById(R.id.home_rec_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         final HistoryListAdapter adapter = new HistoryListAdapter(context);
-        adapter.setTheme(getActivity().getTheme());
+        adapter.setTheme(requireActivity().getTheme());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new HistoryListAdapter.OnItemClickListener(){
             @Override
@@ -50,20 +49,15 @@ public class HomeFragment extends Fragment{
             }
 
         });
+        HistoryViewModel mHistoryViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
+        mHistoryViewModel.getLatestTexts().observe(getViewLifecycleOwner(), new Observer<List<History>>() {
 
-
-        mHistoryViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
-
-        if(mHistoryViewModel!=null)
-            mHistoryViewModel.getLatestTexts().observe(getViewLifecycleOwner(), new Observer<List<History>>() {
-
-                @Override
-                public void onChanged(@Nullable final List<History> words) {
-                    Log.v("Mannaggia",words.toString());
-                    // Update the cached copy of the words in the adapter.
-                    adapter.setWords(words);
-                }
-            });
+            @Override
+            public void onChanged(@Nullable final List<History> words) {
+                // Update the cached copy of the words in the adapter.
+                adapter.setWords(words);
+            }
+        });
         // Inflate the layout for this fragment
         return view;
     }

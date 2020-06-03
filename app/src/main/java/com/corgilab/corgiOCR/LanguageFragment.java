@@ -19,6 +19,7 @@ import com.corgilab.corgiOCR.R;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 public class LanguageFragment extends Fragment {
@@ -26,7 +27,7 @@ public class LanguageFragment extends Fragment {
     private List<String> languageAvailable = new ArrayList<String>();
     private List<String> languageAvailableTag = new ArrayList<String>();
     private TextToSpeech t2s;
-    View view;
+    private View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,18 +54,18 @@ public class LanguageFragment extends Fragment {
             }
         }
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, languageAvailable);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, languageAvailable);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
-        spinner.setSelection(getActivity().getPreferences(Context.MODE_PRIVATE).getInt("SpinnerPosition",1));
+        spinner.setSelection(requireActivity().getPreferences(Context.MODE_PRIVATE).getInt("SpinnerPosition",1));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("TextToSpeechLanguage",languageAvailableTag.get(position));
                 editor.putInt("SpinnerPosition",position);
-                editor.commit();
+                editor.apply();
                 }
 
             @Override
