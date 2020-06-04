@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        checked = sharedPreferences.getBoolean("DarkThemeOn", true);
+        checked = sharedPreferences.getBoolean("DarkThemeOn", false);
         if(checked){
             setTheme(R.style.AppThemeDark);
         }else{

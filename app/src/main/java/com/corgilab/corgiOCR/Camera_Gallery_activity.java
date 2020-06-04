@@ -95,24 +95,31 @@ public class Camera_Gallery_activity extends AppCompatActivity {
 
     }
 
-    /*
+    /**
     * Il metodo elabora l'immagine selezionata e ne trascrive il testo in una stringa
-    * Viene poi richiamata Main Activity che gestisce
+    * Viene poi richiamata MainActivity con un Intent specifico per gestire
     * il fragment per la visualizzazione e la riproduzione audio del testo trascritto
+    *(T2SFragment)
+    * @Param view View passata tramite l'onClick del bottone di elaborazione
     */
     public void onElaborateClick(View view) {
         //Caso limite, non si verifica mai(in teoria)
         if (currentPhotoPath == null) {
             Toast myToast = Toast.makeText(this, "No image found", Toast.LENGTH_SHORT);
             myToast.show();
-        } else if(first_click){
+        }
+        //Mi serve per far si che non si possa cliccare il bottone più volte facendo crashare l'app
+        else if(first_click){
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-            //when I press the button process, go to Text2Speech activity
-            //make an intent
-            StringBuilder st = new StringBuilder();
-            st = staticOCR_t2s.elaborate_button(currentPhotoPath,this);
+            /*
+            *   Elaboro l'immagine ottenuta
+            */
+            StringBuilder st = staticOCR_t2s.elaborate_button(currentPhotoPath,this);
             String str = st.toString().replace("\n", " ");
-            //Classe Text2Speech
+            /*
+            *   Creo l'intent per MainActivity con degli extra per permettergli di capire
+            *   quale fragment creare
+            */
             Intent t2s = new Intent(this, MainActivity.class);
             t2s.putExtra("result","true");
             t2s.putExtra("message", str);
@@ -121,26 +128,12 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             first_click = false;
         }
     }
-    private void cropIntent(){
-        Intent cropIntent = new Intent("com.android.camera.action.CROP");
-        //indicate image type and Uri
-        cropIntent.setDataAndType(photoURI, "image/*");
-        //set crop properties
-        cropIntent.putExtra("crop", "true");
-        //indicate aspect of desired crop
-        cropIntent.putExtra("aspectX", 4);
-        cropIntent.putExtra("aspectY", 3);
-        //indicate output X and Y
-        cropIntent.putExtra("outputX", 400);
-        cropIntent.putExtra("outputY", 400);
-        //retrieve data on return
-        cropIntent.putExtra("return-data", true);
-        //start the activity - we handle returning in onActivityResult
-        startActivityForResult(cropIntent, PIC_CROP);
-    }
-    /*
-    *   Crea un file temporaneo in cui salvare l'immagine scattata o scelta
-    */
+
+    /** Crea un file temporaneo in cui salvare l'immagine scattata o scelta
+     *
+     * @return File ritorna un file temporaneo in cui salvare le immagini
+     * @throws IOException da gestire se la creazione non va a buon fine
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
@@ -156,9 +149,13 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         //image.deleteOnExit();
         return image;
     }
-    /*
-    *   Metodo rotateImage, mi serve per ruotare l'immagine nel caso l'intent mi dia robe brutte
-    */
+
+    /** Metodo rotateImage, mi serve per ruotare l'immagine nel caso che l'intent non mi restituisca
+     * l'immagine orientata nel modo che voglio
+     *
+     * @param bitmap il bitmap non ruotato
+     * @return Bitmap ruotato a seconda delle indicazioni trovate da ExifInterface
+     */
     private Bitmap rotateImage(Bitmap bitmap){
         ExifInterface exifInterface = null;
         try{
@@ -178,6 +175,14 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         return Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
     }
 
+    /** Gestisco i diversi intent lanciati a seconda che io abbia scelto un'immagine
+     * oppure la abbia scattata
+     *
+     * parametri di default:
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -201,15 +206,18 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         }
         ImageView imageView = findViewById(R.id.image_view_1);
         imageView.setImageBitmap((Bitmap) BitmapFactory.decodeFile(currentPhotoPath));
-
     }
 
-
+    /** L'immagine è già salvata ma è possibile che non sia dritta e che quindi debba essere ruotata
+     *
+     * @param input il Bitmap da ruotare
+     * @return boolean true o false a seconda che le operazioni siano andate buon fine o meno
+     */
     private boolean saveImage(Bitmap input){
         Bitmap bitmap = rotateImage(input);
         try {
             FileOutputStream fout = new FileOutputStream(currentPhotoPath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
             fout.flush();
             fout.close();
             return  true;
@@ -218,26 +226,23 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         }
     }
 
+    /** L'immagine viene salvata in un file temporaneo e viene ruotata
+     *
+     * @param uri l'uri del file in cui salvare l'immagine
+     * @return boolean true o false a seconda che le operazioni siano andate buon fine o meno
+     */
     private boolean saveImage(Uri uri){
         FileOutputStream fout = null;
         Bitmap bitmap;
         try {
             fout = new FileOutputStream(image);
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
+            bitmap = rotateImage(MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
             return true;
         }catch(Exception e){return false;}
     }
-
-    @Override protected void onDestroy() {
-        super.onDestroy();
-        if (!isChangingConfigurations() && getExternalFilesDir(Environment.DIRECTORY_PICTURES) != null) {
-            //deleteTempFiles(getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-        }
-    }
-
-    /*
-    *   Routine per eliminare i file temporanei alla chiusura dell'activity
+    /** Metodo static per eliminare i file temporanei(viene richiamato da altre classi)
+    *   @Param file il file o la directory da eliminare
     */
     public static void deleteTempFiles(File file) {
         if (file.isDirectory()) {

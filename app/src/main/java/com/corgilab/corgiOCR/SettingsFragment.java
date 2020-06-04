@@ -4,14 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
-
-import androidx.annotation.IntDef;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-
 import java.io.File;
-import java.util.Objects;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -47,7 +43,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         if(isAdded()){
         SharedPreferences.Editor editor = sharedPreferences.edit();
             if ("Theme".equals(key)) {
-                boolean isChecked = sharedPreferences.getBoolean(KEY_PREF_APP_THEME, true);
+                boolean isChecked = sharedPreferences.getBoolean(KEY_PREF_APP_THEME, false);
                 Intent i = new Intent(activity, MainActivity.class);
                 editor.putBoolean("DarkThemeOn", isChecked);
                 editor.apply();
