@@ -1,10 +1,14 @@
 package com.corgilab.corgiOCR;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
@@ -14,13 +18,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.corgilab.corgiOCR.R;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
 
 public class LanguageFragment extends Fragment {
     private Locale[] t2s_locales = Locale.getAvailableLocales();
@@ -37,41 +37,55 @@ public class LanguageFragment extends Fragment {
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
                     // * - delay important tasks until TTS is initialized
-                    startWhenTTSIsInitialized();
+                    new LanguageRetrievingTask().execute("T2Slang_retrieve");
                 }
             }
-    });
+        });
 
         return view;
     }
-
-    private void startWhenTTSIsInitialized(){
-        for (Locale locale : t2s_locales) {
-            int res = t2s.isLanguageAvailable(locale);
-            if (res == TextToSpeech.LANG_COUNTRY_AVAILABLE){
-                languageAvailable.add(locale.getDisplayLanguage() +" "+ locale.toString());
-                languageAvailableTag.add(locale.toString());
-            }
-        }
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, languageAvailable);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-        spinner.setSelection(requireActivity().getPreferences(Context.MODE_PRIVATE).getInt("SpinnerPosition",1));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SharedPreferences sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("TextToSpeechLanguage",languageAvailableTag.get(position));
-                editor.putInt("SpinnerPosition",position);
-                editor.apply();
+    /*
+    *   Il task è pesante, conviene fare la fase di retrieving in background e quando ha finito mostrare i risultati nella Ui
+    */
+    @SuppressLint("StaticFieldLeak")
+    private class LanguageRetrievingTask extends AsyncTask<String, Integer, Long> {
+        @Override
+        public Long doInBackground(String... strings) {
+            for (Locale locale : t2s_locales) {
+                int res = t2s.isLanguageAvailable(locale);
+                if (res == TextToSpeech.LANG_COUNTRY_AVAILABLE) {
+                    languageAvailable.add(locale.getDisplayLanguage());
+                    languageAvailableTag.add(locale.toString());
                 }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
-        });
+
+        return 0L;
+        }
+        @Override
+        protected void onPostExecute(Long result) {
+            SharedPreferences sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            RecyclerView recyclerView = view.findViewById(R.id.lang_recview);
+            LinearLayoutManager manager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(manager);
+            int pos = sharedPreferences.getInt("SpinnerPosition",1 );
+            final LanguageViewAdapter adapter = new LanguageViewAdapter(getContext());
+            adapter.setLastPos(pos);
+            manager.scrollToPosition(pos);
+            adapter.setLanguages(languageAvailable);
+            adapter.setLanguagesTag(languageAvailableTag);
+            recyclerView.setAdapter(adapter);
+            adapter.setOnClickListener(new LanguageViewAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    editor.putString("TextToSpeechLanguage", languageAvailableTag.get(position));
+                    editor.putInt("SpinnerPosition", position);
+                    editor.apply();
+                    adapter.setLastPos(position);
+                    adapter.notifyDataSetChanged();
+                    manager.scrollToPosition(position);
+                }
+            });
+        }
     }
 }

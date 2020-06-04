@@ -37,7 +37,6 @@ public class HistoryFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.hist_rec_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         final HistoryListAdapter adapter = new HistoryListAdapter(context);
-        adapter.setTheme(requireActivity().getTheme());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new HistoryListAdapter.OnItemClickListener(){
             @Override

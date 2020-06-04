@@ -1,36 +1,16 @@
 package com.corgilab.corgiOCR.HistoryManagement;
 
-/*
- * Copyright (C) 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.corgilab.corgiOCR.R;
-
 import java.util.List;
 
 
@@ -64,7 +44,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
                 cardView.setSelected(isSelected);
                 if (mLongListener != null) {
                     if(isSelected)
-                        cardView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.secondaryColor));
+                        cardView.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.toolbar_gradient,itemView.getContext().getTheme()));
                     else
                         cardView.setBackground(initialColor);
                     int position = getAdapterPosition();
@@ -78,6 +58,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
         private void updateView(){
             this.isSelected=false;
+            cardView.setBackground(initialColor);
         }
     }
 
@@ -91,7 +72,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     public void setOnItemLongClickListener(OnItemLongClickListener listener){ mLongListener = listener; notifyDataSetChanged(); }
 
-    private Resources.Theme theme;
     private OnItemClickListener mListener;
     private OnItemLongClickListener mLongListener;
     private final LayoutInflater mInflater;
@@ -104,10 +84,6 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
         return new HistoryViewHolder(itemView);
-    }
-
-    public void setTheme(Resources.Theme theme){
-        this.theme= theme;
     }
 
     public String getText(int position){

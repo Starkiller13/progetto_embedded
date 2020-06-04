@@ -17,10 +17,8 @@ import android.view.ViewGroup;
 import com.corgilab.corgiOCR.HistoryManagement.History;
 import com.corgilab.corgiOCR.HistoryManagement.HistoryListAdapter;
 import com.corgilab.corgiOCR.HistoryManagement.HistoryViewModel;
-import com.corgilab.corgiOCR.R;
 
 import java.util.List;
-import java.util.Objects;
 
 public class HomeFragment extends Fragment{
     private static final String TAG = "HomeFragment";
@@ -32,7 +30,6 @@ public class HomeFragment extends Fragment{
         RecyclerView recyclerView = view.findViewById(R.id.home_rec_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         final HistoryListAdapter adapter = new HistoryListAdapter(context);
-        adapter.setTheme(requireActivity().getTheme());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new HistoryListAdapter.OnItemClickListener(){
             @Override

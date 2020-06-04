@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,7 +38,7 @@ import java.util.Objects;
 public class T2SFragment extends Fragment {
     private View view;
     private TextToSpeech t2s;
-    private TextView tw;
+    private EditText tw;
     private boolean fab_status = true;
     private int j = 0;
     private HistoryViewModel mHistoryViewModel;
@@ -60,7 +61,7 @@ public class T2SFragment extends Fragment {
                 t2s.setLanguage(new Locale(requireActivity().getPreferences(Context.MODE_PRIVATE).getString("TextToSpeechLanguage","it")));
             }
         });
-        tw = (TextView) view.findViewById(R.id.textbox);
+        tw = (EditText) view.findViewById(R.id.textbox);
         assert getArguments() != null;
         txt = getArguments().getString("text");
         imgPath = getArguments().getString("imgPath");
@@ -119,7 +120,7 @@ public class T2SFragment extends Fragment {
         share.setOnClickListener(v -> {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "--CorgiOCR GO--\n" + txt);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "--CorgiOCR GO--\n" + tw.getText().toString());
             sendIntent.setType("text/plain");
             Intent shareIntent = Intent.createChooser(sendIntent, null);
             startActivity(shareIntent);

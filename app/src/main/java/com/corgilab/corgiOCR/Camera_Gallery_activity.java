@@ -30,14 +30,18 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PICK_IMAGE=100;
     private static final int PIC_CROP = 2;
+    private File image = null;
     private boolean first_click = true;
     private ImageView imageView = null;
+    private Uri photoURI;
     private String currentPhotoPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Gestisco l'intent mandato da MainActivity
         Intent intent = getIntent();
+        //Gestisco il tema della app
         boolean theme = intent.getBooleanExtra("Theme",false);
         if(theme){
             setTheme(R.style.AppThemeDark);
@@ -45,13 +49,13 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             setTheme(R.style.AppThemeLight);
         }
         setContentView(R.layout.camera_gallery_activity);
+
         //Setup Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);//Back action al posto di nav drawer open toggle
 
         //Gestisco l'intent mandato da Main_Activity
-
         int act = intent.getIntExtra("activity",0);
         Log.v(TAG, "valore di act: "+ act);
         switch (act){
@@ -59,13 +63,12 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             case 0: {
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 imageView = findViewById(R.id.image_view_1);
-                File image = null;
                 try {
                     image = createImageFile();
                 } catch (IOException e) {
                     break;
                 }
-                Uri photoURI = FileProvider.getUriForFile(this,
+                photoURI = FileProvider.getUriForFile(this,
                         "com.corgilab.corgiOCR.fileprovider",
                         image);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -75,6 +78,14 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             }
             //Ricerca foto
             case 1: {
+                try {
+                    image = createImageFile();
+                } catch (IOException e) {
+                    break;
+                }
+                photoURI = FileProvider.getUriForFile(this,
+                        "com.corgilab.corgiOCR.fileprovider",
+                        image);
                 Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 //avvio l'activity per recuperare l'immagine dalla galleria
                 startActivityForResult(gallery, PICK_IMAGE);
@@ -110,23 +121,23 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             first_click = false;
         }
     }
-    /*private void cropIntent(){
+    private void cropIntent(){
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
         //indicate image type and Uri
-        cropIntent.setDataAndType(Uri.parse(currentPhotoPath), "image/*");
+        cropIntent.setDataAndType(photoURI, "image/*");
         //set crop properties
         cropIntent.putExtra("crop", "true");
         //indicate aspect of desired crop
-        cropIntent.putExtra("aspectX", 1);
-        cropIntent.putExtra("aspectY", 1);
+        cropIntent.putExtra("aspectX", 4);
+        cropIntent.putExtra("aspectY", 3);
         //indicate output X and Y
-        cropIntent.putExtra("outputX", 1500);
-        cropIntent.putExtra("outputY", 1500);
+        cropIntent.putExtra("outputX", 400);
+        cropIntent.putExtra("outputY", 400);
         //retrieve data on return
         cropIntent.putExtra("return-data", true);
         //start the activity - we handle returning in onActivityResult
         startActivityForResult(cropIntent, PIC_CROP);
-    }*/
+    }
     /*
     *   Crea un file temporaneo in cui salvare l'immagine scattata o scelta
     */
@@ -140,7 +151,6 @@ public class Camera_Gallery_activity extends AppCompatActivity {
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         //image.deleteOnExit();
@@ -178,16 +188,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         }
         //Immagine Scattata, la faccio visualizzare nella view apposita
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bitmap bitmap = rotateImage(BitmapFactory.decodeFile(currentPhotoPath));
-            try {
-                FileOutputStream fout = new FileOutputStream(currentPhotoPath);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
-                fout.flush();
-                fout.close();
-            }catch (Exception w){
-                return;
-            }
-                imageView.setImageBitmap(bitmap);
+            saveImage(BitmapFactory.decodeFile(currentPhotoPath));
         }
         /*
         * immagine scelta, la faccio visualizzare e poi la salvo in un file temporaneo
@@ -196,21 +197,36 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         */
         else if(requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
             Uri imageUri = data.getData();
-            ImageView imageView = findViewById(R.id.image_view_1);
-            imageView.setImageURI(imageUri);
-            File f=null;
-            FileOutputStream fout = null;
-            Bitmap bitmap;
-            try {
-                 f = createImageFile();
-                 fout = new FileOutputStream(f);
-                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                 bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
-
-            }catch(Exception e){}
-            assert f != null;
-            currentPhotoPath= f.getAbsolutePath();
+            saveImage(imageUri);
         }
+        ImageView imageView = findViewById(R.id.image_view_1);
+        imageView.setImageBitmap((Bitmap) BitmapFactory.decodeFile(currentPhotoPath));
+
+    }
+
+
+    private boolean saveImage(Bitmap input){
+        Bitmap bitmap = rotateImage(input);
+        try {
+            FileOutputStream fout = new FileOutputStream(currentPhotoPath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
+            fout.flush();
+            fout.close();
+            return  true;
+        }catch (Exception w){
+            return false;
+        }
+    }
+
+    private boolean saveImage(Uri uri){
+        FileOutputStream fout = null;
+        Bitmap bitmap;
+        try {
+            fout = new FileOutputStream(image);
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fout);
+            return true;
+        }catch(Exception e){return false;}
     }
 
     @Override protected void onDestroy() {

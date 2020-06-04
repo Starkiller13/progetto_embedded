@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements
         }else {
             //Avvio l'activity dedicata alla galleria
             Intent i = new Intent(this, Camera_Gallery_activity.class);
+            i.putExtra("Theme",checked);
             i.putExtra("activity",(int)1);
             startActivityForResult(i, 0);
         }

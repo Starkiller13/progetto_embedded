@@ -15,32 +15,14 @@
             android:textColor="@color/primaryColor"
             android:textStyle="bold"
             android:textSize="15sp"
-            android:layout_marginTop="20dp"
+            android:layout_marginVertical="10dp"
             android:layout_marginStart="10dp"
             android:text="@string/t2s_selection" />
-        <Spinner
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lang_recview"
+            tools:listitem="@layout/rw_language_item"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="20sp"
-            android:id="@+id/spinner"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/primaryColor"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:text="@string/application_language" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="50sp"
-            android:id="@+id/lang_spinner"/>
-
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </FrameLayout>

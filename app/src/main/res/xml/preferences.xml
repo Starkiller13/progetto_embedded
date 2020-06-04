@@ -18,7 +18,7 @@
     <PreferenceCategory
         android:title="User Experience">
         <Preference
-            app:title="Let us a Feedback"
+            app:title="Leave us a Feedback"
             app:key="Feedback"/>
     </PreferenceCategory>
 
