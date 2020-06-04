@@ -26,6 +26,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             return true;
         });
         Preference cache = (Preference) findPreference("Cache");
+        assert cache != null;
         cache.setOnPreferenceClickListener(preference -> {
             File cacheDir = requireActivity().getCacheDir();
             if(cacheDir!=null){

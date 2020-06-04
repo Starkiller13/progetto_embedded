@@ -6,13 +6,13 @@
     android:gravity="bottom"
     android:background="@drawable/navbar_header_gradient"
     android:orientation="vertical">
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:src="@mipmap/ic_launcher_foreground"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/header_image" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

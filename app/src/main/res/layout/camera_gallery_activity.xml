@@ -56,7 +56,7 @@
         android:onClick="onElaborateClick"
         android:paddingHorizontal="20sp"
         app:layout_constraintVertical_bias="1"
-        android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
+        android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
         app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -76,7 +76,5 @@
         android:indeterminate="true"
         android:indeterminateTint="@color/primaryColor"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="178dp"
-        tools:layout_editor_absoluteY="342dp" />
+        android:layout_height="wrap_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>
