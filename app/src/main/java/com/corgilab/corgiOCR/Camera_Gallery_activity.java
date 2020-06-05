@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+
+import androidx.annotation.NonNull;
 import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,45 +56,49 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);//Back action al posto di nav drawer open toggle
+        if(savedInstanceState!=null){
+            currentPhotoPath = savedInstanceState.getString("cfp");
+            ImageView imageView = findViewById(R.id.image_view_1);
+            imageView.setImageBitmap((Bitmap) BitmapFactory.decodeFile(currentPhotoPath));
+        }else {
+            //Gestisco l'intent mandato da Main_Activity
+            int act = intent.getIntExtra("activity", 0);
+            Log.v(TAG, "valore di act: " + act);
+            switch (act) {
+                //Cattura immagine
+                case 0: {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    imageView = findViewById(R.id.image_view_1);
+                    try {
+                        image = createImageFile();
+                    } catch (IOException e) {
+                        break;
+                    }
+                    photoURI = FileProvider.getUriForFile(this,
+                            "com.corgilab.corgiOCR.fileprovider",
+                            image);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
-        //Gestisco l'intent mandato da Main_Activity
-        int act = intent.getIntExtra("activity",0);
-        Log.v(TAG, "valore di act: "+ act);
-        switch (act){
-            //Cattura immagine
-            case 0: {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                imageView = findViewById(R.id.image_view_1);
-                try {
-                    image = createImageFile();
-                } catch (IOException e) {
                     break;
                 }
-                photoURI = FileProvider.getUriForFile(this,
-                        "com.corgilab.corgiOCR.fileprovider",
-                        image);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
-                break;
-            }
-            //Ricerca foto
-            case 1: {
-                try {
-                    image = createImageFile();
-                } catch (IOException e) {
+                //Ricerca foto
+                case 1: {
+                    try {
+                        image = createImageFile();
+                    } catch (IOException e) {
+                        break;
+                    }
+                    photoURI = FileProvider.getUriForFile(this,
+                            "com.corgilab.corgiOCR.fileprovider",
+                            image);
+                    Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    //avvio l'activity per recuperare l'immagine dalla galleria
+                    startActivityForResult(gallery, PICK_IMAGE);
                     break;
                 }
-                photoURI = FileProvider.getUriForFile(this,
-                        "com.corgilab.corgiOCR.fileprovider",
-                        image);
-                Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                //avvio l'activity per recuperare l'immagine dalla galleria
-                startActivityForResult(gallery, PICK_IMAGE);
-                break;
             }
         }
-
     }
 
     /**
@@ -206,6 +212,12 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         }
         ImageView imageView = findViewById(R.id.image_view_1);
         imageView.setImageBitmap((Bitmap) BitmapFactory.decodeFile(currentPhotoPath));
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putString("cfp",currentPhotoPath);
     }
 
     /** L'immagine è già salvata ma è possibile che non sia dritta e che quindi debba essere ruotata

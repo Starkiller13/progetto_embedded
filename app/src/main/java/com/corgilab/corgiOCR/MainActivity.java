@@ -21,15 +21,13 @@ import android.view.View;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-
-    final String TAG = "main_act";
-    final String HOME_TAG = "home_tag";
     private boolean checked;
-    private int prev_frag = 0;
     private DrawerLayout navDrawer;
 
     @Override
@@ -37,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         checked = sharedPreferences.getBoolean("DarkThemeOn", false);
-        if(checked){
+        if (checked) {
             setTheme(R.style.AppThemeDark);
-        }else{
+        } else {
             setTheme(R.style.AppThemeLight);
         }
         setContentView(R.layout.activity_main);
@@ -48,35 +46,11 @@ public class MainActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*  Gestisco 2 casi: sto avviando la app oppure sto tornando indietro da
-        *   Camera_Gallery_activity
-        */
-
-        Intent prev = getIntent();
-        String i = prev.getStringExtra("message");
-        int j = prev.getIntExtra("settingsChanged",0);
-        if(i!=null) {
-            //Caso Camera_Gallery_activity
-            Fragment t2s = new T2SFragment();
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("hb_visible", true);
-            bundle.putString("text", i);
-            bundle.putString("imgPath", getIntent().getStringExtra("imgPath"));
-            t2s.setArguments(bundle);
-            FragmentTransaction manager = getSupportFragmentManager().beginTransaction();
-            manager.setCustomAnimations(R.anim.enter_right, R.anim.exit_left, R.anim.enter_left, R.anim.exit_right);
-            manager.add(R.id.fragment_container, t2s).commit();
-        }
-        else if(j!=0)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new SettingsFragment()).commit();
-        else
-            //Caso avvio la app
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,new HomeFragment()).commit();
 
         //Setup Navigation Drawer
         navDrawer = findViewById(R.id.nav_drawer);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this,navDrawer,toolbar,
+                this, navDrawer, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         );
@@ -86,8 +60,45 @@ public class MainActivity extends AppCompatActivity implements
         if (mNavigationView != null) {
             mNavigationView.setNavigationItemSelectedListener(this);
         }
-    }
 
+        /*  Gestisco 2 casi: sto avviando la app oppure sto tornando indietro da
+         *   Camera_Gallery_activity
+         */
+        if (savedInstanceState != null) {
+            if(savedInstanceState.getBoolean("checked"))
+                getSupportFragmentManager().popBackStack();
+            else{
+                Fragment t2s = new T2SFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("hb_visible", true);
+                bundle.putString("text", savedInstanceState.getString("text"));
+                bundle.putString("imgPath", savedInstanceState.getString("imgPath"));
+                t2s.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().add(t2s,"T2SFragment").commit();
+            }
+        } else {
+            Intent prev = getIntent();
+            String i = prev.getStringExtra("message");
+            int j = prev.getIntExtra("settingsChanged", 0);
+            if (i != null) {
+                //Caso Camera_Gallery_activity
+                Fragment t2s = new T2SFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("hb_visible", true);
+                bundle.putString("text", i);
+                bundle.putString("imgPath", getIntent().getStringExtra("imgPath"));
+                t2s.setArguments(bundle);
+                FragmentTransaction manager = getSupportFragmentManager().beginTransaction();
+                manager.setCustomAnimations(R.anim.enter_right, R.anim.exit_left, R.anim.enter_left, R.anim.exit_right);
+                manager.add(R.id.fragment_container, t2s, "T2SFragment").commit();
+            } else if (j != 0)
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment(), "SettingsFragment").commit();
+            else
+                //Caso avvio la app
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new HomeFragment(), "HomeFragment").commit();
+
+        }
+    }
     /*
     *   Se il drawer è aperto e se clicco back lo chiude
     */
@@ -147,15 +158,15 @@ public class MainActivity extends AppCompatActivity implements
 
         int id = item.getItemId();
         if(id == R.id.home){
-            manager.replace(R.id.fragment_container, new HomeFragment()).commit();
+            manager.replace(R.id.fragment_container, new HomeFragment(),"HomeFragment").commit();
         }
         else if (id == R.id.hist) {
-            manager.replace(R.id.fragment_container, new HistoryFragment()).commit();
+            manager.replace(R.id.fragment_container, new HistoryFragment(),"HistoryFragment").commit();
 
         } else if (id == R.id.lang) {
-            manager.replace(R.id.fragment_container, new LanguageFragment()).commit();
+            manager.replace(R.id.fragment_container, new LanguageFragment(),"LanguageFragment").commit();
         } else if (id == R.id.settings) {
-                manager.replace(R.id.fragment_container, new SettingsFragment()).commit();
+                manager.replace(R.id.fragment_container, new SettingsFragment(),"SettingsFragment").commit();
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_drawer);
@@ -202,6 +213,14 @@ public class MainActivity extends AppCompatActivity implements
                 }
             break;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "fragmentName", Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.fragment_container)));
+        outState.putBoolean("changed",true);
     }
 
 

@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
@@ -36,6 +39,7 @@ public class T2SFragment extends Fragment {
     private TextToSpeech t2s;
     private EditText tw;
     private boolean fab_status = true;
+    private boolean isRotating = false;
     private int j = 0;
     private FloatingActionButton fab;
     private HistoryViewModel mHistoryViewModel;
@@ -58,8 +62,16 @@ public class T2SFragment extends Fragment {
         t2s = ttsinitializer();
         tw = (EditText) view.findViewById(R.id.textbox);
         assert getArguments() != null;
-        String txt = getArguments().getString("text");
-        String imgPath = getArguments().getString("imgPath");
+        String txt = null;
+        String imgPath =null;
+        if(savedInstanceState==null) {
+            txt = getArguments().getString("text");
+            imgPath = getArguments().getString("imgPath");
+        }
+        else {
+            txt = savedInstanceState.getString("text");
+            imgPath = savedInstanceState.getString("imgPath");
+        }
         ImageView imgview = view.findViewById(R.id.t2s_imageView);
         /*
         * Se arrivo alla app da Camera_Gallery_activity passo anche la preview dell'immagine(che verrà poi eliminata)
@@ -173,6 +185,16 @@ public class T2SFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("changed",false);
+        outState.putString("txt",getArguments().getString("text"));
+        outState.putString("imgPath",getArguments().getString("imgPath"));
+        isRotating=true;
+    }
+
     /**Implementazione del metodo onPause in cui interrompo e spengo
      * il motore di sintesi.
      */
@@ -195,8 +217,9 @@ public class T2SFragment extends Fragment {
             t2s.shutdown();
         }
         super.onDetach();
-        Camera_Gallery_activity.deleteTempFiles(Objects.requireNonNull(requireContext()
-                .getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
+        if(!isRotating)
+            Camera_Gallery_activity.deleteTempFiles(Objects.requireNonNull(requireContext()
+                    .getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
     }
 }
 
