@@ -36,7 +36,7 @@
         <activity
             android:name="com.corgilab.corgiOCR.Camera_Gallery_activity"
             android:exported="true"
-            android:label="@string/title_activity_camera_activity"
+            android:label="@string/title_activity_camera_gallery_activity"
             android:parentActivityName="com.corgilab.corgiOCR.MainActivity" />
         <activity
             android:name="com.corgilab.corgiOCR.MainActivity"
