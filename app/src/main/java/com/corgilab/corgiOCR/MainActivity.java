@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.MenuItem;
@@ -127,9 +128,11 @@ public class MainActivity extends AppCompatActivity implements
                 manager.add(R.id.fragment_container, t2s, "T2SFragment").commit();
             } else if (j != 0)
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment(), "SettingsFragment").commit();
-            else
+            else {
                 //Caso avvio la app
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new HomeFragment(), "HomeFragment").commit();
+                Camera_Gallery_activity.deleteTempFiles(Objects.requireNonNull(getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
+            }
 
         }
         t2s = new TextToSpeech(this, new TextToSpeech.OnInitListener() {

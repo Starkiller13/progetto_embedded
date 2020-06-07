@@ -101,6 +101,12 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        deleteTempFiles(Objects.requireNonNull(getExternalFilesDir(Environment.DIRECTORY_PICTURES)));
+    }
+
     /**
     * Il metodo elabora l'immagine selezionata e ne trascrive il testo in una stringa
     * Viene poi richiamata MainActivity con un Intent specifico per gestire
@@ -196,6 +202,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         //Non è stata fatta alcuna azione, torno a mainactivity
         if(resultCode==0){
             startActivity(new Intent(this,MainActivity.class));
+            deleteTempFiles(getExternalFilesDir(Environment.DIRECTORY_PICTURES));
         }
         //Immagine Scattata, la faccio visualizzare nella view apposita
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
