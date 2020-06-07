@@ -7,7 +7,7 @@
         <androidx.preference.SwitchPreference
             app:title="Switch Theme"
             app:key="Theme"
-            android:defaultValue="false"/>
+            android:defaultValue="true"/>
     </PreferenceCategory>
     <PreferenceCategory
         app:title="Memory Management">

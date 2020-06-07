@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        checked = sharedPreferences.getBoolean("DarkThemeOn", false);
+        checked = sharedPreferences.getBoolean("DarkThemeOn", true);
         if (checked) {
             setTheme(R.style.AppThemeDark);
         } else {
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //Permission granted, avvio l'activity della camera
-
+                    i.putExtra("Theme",checked);
                     i.putExtra("activity",0);
                     startActivityForResult(i,0);
                 } else {
@@ -247,7 +247,8 @@ public class MainActivity extends AppCompatActivity implements
                     if (grantResults.length > 0
                             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         //Permission granted, avvio l'activity della camera
-                        i.putExtra("activity",1);
+                        i.putExtra("Theme",checked);
+                        i.putExtra("activity",(int)1);
                         startActivityForResult(i,0);
                     } else {
                         //Permission denied

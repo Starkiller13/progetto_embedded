@@ -44,7 +44,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         if(isAdded()){
         SharedPreferences.Editor editor = sharedPreferences.edit();
             if ("Theme".equals(key)) {
-                boolean isChecked = sharedPreferences.getBoolean(KEY_PREF_APP_THEME, false);
+                boolean isChecked = sharedPreferences.getBoolean(KEY_PREF_APP_THEME, true);
                 Intent i = new Intent(activity, MainActivity.class);
                 editor.putBoolean("DarkThemeOn", isChecked);
                 editor.apply();

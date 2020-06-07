@@ -248,7 +248,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         Bitmap bitmap;
         try {
             fout = new FileOutputStream(image);
-            bitmap = rotateImage(MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri));
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout);
             return true;
         }catch(Exception e){return false;}
