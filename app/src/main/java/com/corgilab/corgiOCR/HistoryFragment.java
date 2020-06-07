@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
@@ -97,6 +98,7 @@ public class HistoryFragment extends Fragment {
             }
         });
         Snackbar snackbar = Snackbar.make(requireActivity().findViewById(R.id.fragment_container),"Long press an item to select it", BaseTransientBottomBar.LENGTH_LONG);
+        snackbar.setTextColor(getResources().getColor(R.color.secondaryTextColor, requireActivity().getTheme()));
         snackbar.show();
         return view;
     }

@@ -190,6 +190,7 @@ public class T2SFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("changed",false);
+        assert getArguments() != null;
         outState.putString("txt",getArguments().getString("text"));
         outState.putString("imgPath",getArguments().getString("imgPath"));
         isRotating=true;
@@ -201,7 +202,9 @@ public class T2SFragment extends Fragment {
     public void onPause(){
         if(t2s !=null){
             t2s.stop();
-            t2s.shutdown();
+            FloatingActionButton x = view.findViewById(R.id.t2s_fab);
+            x.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            fab_status=true;
         }
         super.onPause();
     }
@@ -215,6 +218,9 @@ public class T2SFragment extends Fragment {
         if(t2s !=null){
             t2s.stop();
             t2s.shutdown();
+            FloatingActionButton x = view.findViewById(R.id.t2s_fab);
+            x.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            fab_status=true;
         }
         super.onDetach();
         if(!isRotating)

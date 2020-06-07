@@ -1,9 +1,11 @@
 package com.corgilab.corgiOCR;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import com.google.android.material.navigation.NavigationView;
 
@@ -17,18 +19,50 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
+
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    private List<String> languageAvailable = new ArrayList<String>();
+    private List<String> languageAvailableTag = new ArrayList<String>();
+    private Locale[] t2s_locales = Locale.getAvailableLocales();
+    private TextToSpeech t2s;
     private boolean checked;
     private DrawerLayout navDrawer;
+    @SuppressLint("StaticFieldLeak")
+    private class LanguageRetrievingTask extends AsyncTask<String, Integer, Long> {
+        @Override
+        public Long doInBackground(String... strings) {
+            for (Locale locale : t2s_locales) {
+                int res = t2s.isLanguageAvailable(locale);
+                if (res == TextToSpeech.LANG_COUNTRY_AVAILABLE) {
+                    languageAvailable.add(locale.getDisplayLanguage());
+                    languageAvailableTag.add(locale.toString());
+                }
+            }
+
+            return 0L;
+        }
+    }
+
+    public List<String> getLanguageAvailable() {
+        return languageAvailable;
+    }
+
+    public List<String> getLanguageAvailableTag() {
+        return languageAvailableTag;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +132,16 @@ public class MainActivity extends AppCompatActivity implements
                 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new HomeFragment(), "HomeFragment").commit();
 
         }
+        t2s = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    // * - delay important tasks until TTS is initialized
+                    new LanguageRetrievingTask().execute("T2Slang_retrieve");
+                }
+            }
+        });
+        new LanguageRetrievingTask().execute();
     }
     /*
     *   Se il drawer è aperto e se clicco back lo chiude
@@ -223,5 +267,9 @@ public class MainActivity extends AppCompatActivity implements
         outState.putBoolean("changed",true);
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        t2s.shutdown();
+    }
 }
