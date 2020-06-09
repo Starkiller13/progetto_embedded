@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-
 import androidx.fragment.app.DialogFragment;
+import java.util.Objects;
 
+/**
+ * Classe per gestire una finestra di feedback
+ */
 public class FeedbackDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -22,7 +25,7 @@ public class FeedbackDialog extends DialogFragment {
                 .setView(view)
                 .setPositiveButton("send", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        EditText tw = (EditText)view.findViewById(R.id.feedback);
+                        EditText tw = view.findViewById(R.id.feedback);
                         String txt = tw.getText().toString();
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("text/html");
@@ -35,7 +38,7 @@ public class FeedbackDialog extends DialogFragment {
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        FeedbackDialog.this.getDialog().cancel();
+                        Objects.requireNonNull(FeedbackDialog.this.getDialog()).cancel();
                     }
                 });
         Dialog dialog = builder.create();

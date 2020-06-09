@@ -60,7 +60,7 @@ public class T2SFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_t2s, container, false);
         fab = view.findViewById(R.id.t2s_fab);
         t2s = ttsinitializer();
-        tw = (EditText) view.findViewById(R.id.textbox);
+        tw = view.findViewById(R.id.textbox);
         assert getArguments() != null;
         String txt = null;
         String imgPath =null;
@@ -104,7 +104,7 @@ public class T2SFragment extends Fragment {
         /*Bottone per l'aggiunta del testo nell'EditText alla history
         * Il bottone è nascosto se l'elemento è già presente nella history
         */
-        Button add = (Button) view.findViewById(R.id.button_add_history);
+        Button add = view.findViewById(R.id.button_add_history);
         if(!hb_visible){
             add.setVisibility(View.INVISIBLE);
         }else{
@@ -121,7 +121,7 @@ public class T2SFragment extends Fragment {
         /* Bottone per tornare alla schermata precedente(viene tolto un fragment dallo stack se è presente
         * oppure se non ci sono fragment nel backStack creo un nuovo HomeFragment e ci vado
         */
-        Button back = (Button) view.findViewById(R.id.button_back);
+        Button back = view.findViewById(R.id.button_back);
         back.setOnClickListener(v -> {
             if(getParentFragmentManager().getBackStackEntryCount()>0)
                 getParentFragmentManager().popBackStack();
@@ -134,7 +134,7 @@ public class T2SFragment extends Fragment {
         /* Bottone per condividere il testo ottenuto tramite altre app.
         * Viene gestito da un Intent di tipo ACTION_SEND
         */
-        Button share = (Button) view.findViewById(R.id.share);
+        Button share = view.findViewById(R.id.share);
         share.setOnClickListener(v -> {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);

@@ -8,6 +8,9 @@ import androidx.room.Query;
 
 import java.util.List;
 
+/**
+ * Interfaccia del Dao
+ */
 @Dao
 public interface HistoryDao{
 
@@ -16,6 +19,7 @@ public interface HistoryDao{
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(History tba);
 
+    //Non viene mai utilizzato
     @Query("DELETE FROM history_table")
     void deleteAll();
 

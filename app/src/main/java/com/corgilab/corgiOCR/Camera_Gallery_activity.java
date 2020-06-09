@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-
 import androidx.annotation.NonNull;
 import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
@@ -26,7 +25,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-
+/**
+ * Activity per il fetching delle immagini e l'elaborazione dei dati
+ */
 public class Camera_Gallery_activity extends AppCompatActivity {
     private static final String TAG = "Camera_Gallery_activity";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -34,8 +35,6 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     private static final int PIC_CROP = 2;
     private File image = null;
     private boolean first_click = true;
-    private ImageView imageView = null;
-    private Uri photoURI;
     private String currentPhotoPath = null;
 
     @Override
@@ -53,22 +52,23 @@ public class Camera_Gallery_activity extends AppCompatActivity {
         setContentView(R.layout.camera_gallery_activity);
 
         //Setup Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);//Back action al posto di nav drawer open toggle
         if(savedInstanceState!=null){
             currentPhotoPath = savedInstanceState.getString("cfp");
             ImageView imageView = findViewById(R.id.image_view_1);
-            imageView.setImageBitmap((Bitmap) BitmapFactory.decodeFile(currentPhotoPath));
+            imageView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath));
         }else {
             //Gestisco l'intent mandato da Main_Activity
             int act = intent.getIntExtra("activity", 0);
             Log.v(TAG, "valore di act: " + act);
+            Uri photoURI;
             switch (act) {
                 //Cattura immagine
                 case 0: {
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    imageView = findViewById(R.id.image_view_1);
+                    ImageView imageView = findViewById(R.id.image_view_1);
                     try {
                         image = createImageFile();
                     } catch (IOException e) {
@@ -218,7 +218,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
             saveImage(imageUri);
         }
         ImageView imageView = findViewById(R.id.image_view_1);
-        imageView.setImageBitmap((Bitmap) BitmapFactory.decodeFile(currentPhotoPath));
+        imageView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath));
     }
 
     @Override

@@ -9,6 +9,9 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Classe per l'implementazione del database room
+ */
 @Database(entities= {History.class}, version=1, exportSchema=false)
 public abstract class HistoryRoomDatabase extends RoomDatabase {
     public abstract HistoryDao historyDao();
@@ -31,25 +34,4 @@ public abstract class HistoryRoomDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
-    /*private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
-        @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
-
-            // If you want to keep data through app restarts,
-            // comment out the following block
-            databaseWriteExecutor.execute(() -> {
-                // Populate the database in the background.
-                // If you want to start with more words, just add them.
-                HistoryDao dao = INSTANCE.historyDao();
-                dao.deleteAll();
-                History word = new History("Hello");
-                dao.insert(word);
-                word = new History("World");
-                dao.insert(word);
-            });
-        }
-    };*/
-
-
 }

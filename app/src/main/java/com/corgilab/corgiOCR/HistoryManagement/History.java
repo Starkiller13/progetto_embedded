@@ -7,6 +7,9 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
+/**
+ * Entità per il database room
+ */
 @Entity(tableName="history_table")
 public class History {
     @PrimaryKey(autoGenerate = true)

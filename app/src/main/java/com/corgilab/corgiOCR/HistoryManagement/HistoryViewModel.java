@@ -5,6 +5,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import java.util.List;
 
+/**
+ * Viewmodel per il fetching dei dati dal db
+ */
 public class HistoryViewModel extends AndroidViewModel {
     private HistoryRepository mRepository;
     private LiveData<List<History>> mAllTexts;

@@ -9,7 +9,9 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import java.io.File;
 
-
+/**
+ * Frammento per la gestione delle prefereze o settings
+ */
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
     private MainActivity activity;
     private static final String KEY_PREF_APP_THEME = "Theme";
@@ -18,14 +20,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         setPreferencesFromResource(R.xml.preferences, rootKey);
         this.activity = (MainActivity)getActivity();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        Preference feed = (Preference) findPreference("Feedback");
+        Preference feed = findPreference("Feedback");
         assert feed != null;
         feed.setOnPreferenceClickListener(preference -> {
             DialogFragment dialog = new FeedbackDialog();
             dialog.show(getParentFragmentManager(), "com.corgilab.corgiOCR.FeedbackDialog");
             return true;
         });
-        Preference cache = (Preference) findPreference("Cache");
+        Preference cache = findPreference("Cache");
         assert cache != null;
         cache.setOnPreferenceClickListener(preference -> {
             File cacheDir = requireActivity().getCacheDir();

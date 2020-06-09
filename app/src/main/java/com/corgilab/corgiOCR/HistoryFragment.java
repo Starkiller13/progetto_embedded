@@ -21,8 +21,10 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Frammento atto alla visualizzazione e alla gestione degli elementi salvati nel database room
+ */
 public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
     private View view;

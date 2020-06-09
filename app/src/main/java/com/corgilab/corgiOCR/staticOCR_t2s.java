@@ -10,6 +10,9 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
+/**
+ * Classe con metodo statico per l'elaborazione delle immagini
+ */
 public class staticOCR_t2s extends AppCompatActivity {
     //metodi statici
     public static StringBuilder elaborate_button(String currentPhotoPath, Context context)

@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,13 +18,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
-
 import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -33,14 +30,18 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
+    //tag per  i permessi
     final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    //Variabili globali
     private List<String> languageAvailable = new ArrayList<String>();
     private List<String> languageAvailableTag = new ArrayList<String>();
     private Locale[] t2s_locales = Locale.getAvailableLocales();
     private TextToSpeech t2s;
     private boolean checked;
     private DrawerLayout navDrawer;
+
+    //Asynctask per recuperare delle informazioni utili a LanguageFragment
     @SuppressLint("StaticFieldLeak")
     private class LanguageRetrievingTask extends AsyncTask<String, Integer, Long> {
         @Override
@@ -57,14 +58,26 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    /** Metodo per accedere all'array LanguageAvaible
+     *
+     * @return List<String> contenente l'array
+     */
     public List<String> getLanguageAvailable() {
         return languageAvailable;
     }
 
+    /** Metodo per accedere all'array LanguageAvaibleTag
+     *
+     * @return List<String> contenente l'array
+     */
     public List<String> getLanguageAvailableTag() {
         return languageAvailableTag;
     }
 
+    /**Metodo onCreate
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         //Setup Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -91,14 +104,12 @@ public class MainActivity extends AppCompatActivity implements
         );
         toggle.syncState();
         navDrawer.addDrawerListener(toggle);
-        NavigationView mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        NavigationView mNavigationView = findViewById(R.id.navigation);
         if (mNavigationView != null) {
             mNavigationView.setNavigationItemSelectedListener(this);
         }
 
-        /*  Gestisco 2 casi: sto avviando la app oppure sto tornando indietro da
-         *   Camera_Gallery_activity
-         */
+        //Vedo se è stato richiamato il metodo onsavedinstance prima della creazione dell'istanza
         if (savedInstanceState != null) {
             if(savedInstanceState.getBoolean("checked"))
                 getSupportFragmentManager().popBackStack();
@@ -111,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements
                 t2s.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().add(t2s,"T2SFragment").commit();
             }
+            //Gestisco il caso di avvio della app oppure di ritorno da camera_gallery_activity
+            //(anche il caso di refresh dovuto al cambio del tema nei settings)
         } else {
             Intent prev = getIntent();
             String i = prev.getStringExtra("message");
@@ -135,6 +148,9 @@ public class MainActivity extends AppCompatActivity implements
             }
 
         }
+        /*inizializzo il motore TextToSpeech per trovare le lingue disponibili
+        Lo faccio in main activity ed in background per non farlo in fragment language
+        in quanto il caricamento è abbastanza oneroso e l'app laggherebe*/
         t2s = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -146,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements
         });
         new LanguageRetrievingTask().execute();
     }
-    /*
+    /**
     *   Se il drawer è aperto e se clicco back lo chiude
     */
     @Override
@@ -157,10 +173,11 @@ public class MainActivity extends AppCompatActivity implements
         super.onBackPressed();
     }
 
-    /*
+    /**
      *   Vedo se la app ha i permessi di Archiviazione e, in caso positivo, avvio Camera_Gallery_Activity
      *   con una variabile ausiliaria negli extra (mi serve per uno switch case: "activity": 1 serve per marcare
      *   l'azione di Cattura nell'altra activity)
+     *   @Param view la view che contiene il bottone
      */
     public void camera(View view)
     {
@@ -171,15 +188,16 @@ public class MainActivity extends AppCompatActivity implements
             //Avvio l'activity dedicata alla camera
             Intent i = new Intent(this, Camera_Gallery_activity.class);
             i.putExtra("Theme",checked);
-            i.putExtra("activity",(int)0);
+            i.putExtra("activity", 0);
             startActivityForResult(i, 0);
         }
     }
 
-    /*
+    /**
     *   Vedo se la app ha i permessi di Archiviazione e, in caso positivo, avvio Camera_Gallery_Activity
     *   con una variabile ausiliaria negli extra (mi serve per uno switch case: "activity": 0 serve per marcare
     *   l'azione di Pick_Image nell'altra activity)
+    *   @param view la view chr contiene il bottone
     */
     public void gallery(View view)
     {
@@ -189,14 +207,18 @@ public class MainActivity extends AppCompatActivity implements
             //Avvio l'activity dedicata alla galleria
             Intent i = new Intent(this, Camera_Gallery_activity.class);
             i.putExtra("Theme",checked);
-            i.putExtra("activity",(int)1);
+            i.putExtra("activity", 1);
             startActivityForResult(i, 0);
         }
     }
 
-    /*
-    * Listener per gestire le transizioni dei fragment
-    * quando seleziono un elemento nel menu laterale
+    /**
+    *   Listener per gestire la navigazione tra fragment attraverso
+    *   il menu laterale
+    *   @param item il riferimento al menu laterale
+    *
+    *   @return in questo caso always true, non implemento funzionalità che mi richiedano
+    *   un valore specifico di ritorno
     */
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -216,12 +238,17 @@ public class MainActivity extends AppCompatActivity implements
                 manager.replace(R.id.fragment_container, new SettingsFragment(),"SettingsFragment").commit();
 
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.nav_drawer);
+        DrawerLayout drawer = findViewById(R.id.nav_drawer);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    //Check permission
+    /** Metodo per la gestione dopo la richiesta dei permessi di accesso a camera o gallery
+     *
+     * @param requestCode codice della richiesta
+     * @param permissions array con il tipo di permessi richiesti
+     * @param grantResults risultato delle richieste
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -251,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements
                             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         //Permission granted, avvio l'activity della camera
                         i.putExtra("Theme",checked);
-                        i.putExtra("activity",(int)1);
+                        i.putExtra("activity", 1);
                         startActivityForResult(i,0);
                     } else {
                         //Permission denied
@@ -263,6 +290,10 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    /** Metodo per la gestione del salvataggio dell'istanza in caso di rotazione schermo o altro
+     *
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -271,6 +302,9 @@ public class MainActivity extends AppCompatActivity implements
         outState.putBoolean("changed",true);
     }
 
+    /**
+     * Override del metodo onStop per spegnere il motore t2s quando viene invocato
+     */
     @Override
     protected void onStop() {
         super.onStop();
