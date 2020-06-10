@@ -20,5 +20,14 @@
     <string name="menu_item_history">History</string>
     <string name="menu_item_languages">Languages</string>
     <string name="menu_item_settings">Settings</string>
+    <string name="insert">Added to History</string>
+    <string name="insert_a">Already added!</string>
+    <string name="permission_d">Permission Denied!</string>
+    <string name="cache_cleared">Cache Cleared!</string>
+    <string name="cache_cleared_f">Failed!</string>
+    <string name="image_not_found">Image not found!</string>
     <string name="title_activity_camera_gallery_activity" />
+    <string name="clean_cache">Clean cache</string>
+    <string name="feedback">Leave us a Feedback</string>
+    <string name="swc_theme">Switch Theme</string>
 </resources>

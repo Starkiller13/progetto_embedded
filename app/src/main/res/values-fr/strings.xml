@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">CorgiOCR GO</string>
-    <string name="home_button_camera">Camera</string>
-    <string name="home_button_galley">Gallery</string>
-    <string name="button_elaborate">Process</string>
-    <string name="button_add_history">Add to history</string>
+    <string name="home_button_camera">Caméra</string>
+    <string name="home_button_galley">Galerie</string>
+    <string name="button_elaborate">Transformer</string>
+    <string name="button_add_history">Ajouter à\nl\'histoire</string>
     <string name="navigation_drawer_open">Open nav drawer</string>
     <string name="navigation_drawer_close">Close nav drawer</string>
     <string name="history">History</string>
     <string name="home">Home</string>
-    <string name="button_back">Back</string>
-    <string name="button_share">Share</string>
-    <string name="recently_added">Recently Added</string>
-    <string name="t2s_selection">Select Text To Speech Language</string>
-    <string name="feedback_text_hint">Write here</string>
+    <string name="button_back">Arrière</string>
+    <string name="button_share">Partager</string>
+    <string name="recently_added">Récemment ajouté</string>
+    <string name="t2s_selection">Sélectionnez la langue de la synthèse vocale</string>
+    <string name="feedback_text_hint">Ecrire ici</string>
     <string name="feedback_title">Feedback</string>
     <string name="header_image">Header Image</string>
     <string name="menu_item_home">Home</string>
-    <string name="menu_item_history">History</string>
-    <string name="menu_item_languages">Languages</string>
-    <string name="menu_item_settings">Settings</string>
+    <string name="menu_item_history">Histoire</string>
+    <string name="menu_item_languages">Langages</string>
+    <string name="menu_item_settings">Réglages</string>
+    <string name="insert">Ajouté à l\'histoire</string>
+    <string name="insert_a">Déjà ajouté!</string>
+    <string name="permission_d">Permission refusée!</string>
+    <string name="cache_cleared">Cache effacé!</string>
+    <string name="cache_cleared_f">Échoué!</string>
+    <string name="image_not_found">Image non trouvée!</string>
     <string name="title_activity_camera_gallery_activity" />
+    <string name="clean_cache">Clean cache</string>
+    <string name="feedback">Leave us a Feedback</string>
+    <string name="swc_theme">Switch Theme</string>
 </resources>

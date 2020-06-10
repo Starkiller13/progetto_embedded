@@ -61,6 +61,9 @@ public class T2SFragment extends Fragment {
         fab = view.findViewById(R.id.t2s_fab);
         t2s = ttsinitializer();
         tw = view.findViewById(R.id.textbox);
+        tw.setCursorVisible(false);
+        tw.setFocusableInTouchMode(false);
+        tw.setFocusable(false);
         assert getArguments() != null;
         String txt = null;
         String imgPath =null;
@@ -113,10 +116,10 @@ public class T2SFragment extends Fragment {
         add.setOnClickListener(v -> {
             if (j == 0) {
                 mHistoryViewModel.insert(new History(tw.getText().toString()));
-                Toast.makeText(getContext(), "Added to History", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.insert), Toast.LENGTH_SHORT).show();
                 j++;
             } else
-                Toast.makeText(getContext(), "Already added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.insert_a), Toast.LENGTH_SHORT).show();
         });
         /* Bottone per tornare alla schermata precedente(viene tolto un fragment dallo stack se è presente
         * oppure se non ci sono fragment nel backStack creo un nuovo HomeFragment e ci vado
@@ -143,6 +146,11 @@ public class T2SFragment extends Fragment {
             sendIntent.setType("text/plain");
             Intent shareIntent = Intent.createChooser(sendIntent, null);
             startActivity(shareIntent);
+        });
+        tw.setOnClickListener(v -> {
+            tw.setCursorVisible(true);
+            tw.setFocusableInTouchMode(true);
+            tw.setFocusable(true);
         });
         return view;
     }

@@ -33,10 +33,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             File cacheDir = requireActivity().getCacheDir();
             if(cacheDir!=null){
                 Camera_Gallery_activity.deleteTempFiles(cacheDir);
-                Toast.makeText(getContext(),"Cache Cleared!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),getResources().getString(R.string.cache_cleared), Toast.LENGTH_SHORT).show();
             }
             else
-                Toast.makeText(getContext(),"Failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),getResources().getString(R.string.cache_cleared_f), Toast.LENGTH_SHORT).show();
             return true;
         });
     }

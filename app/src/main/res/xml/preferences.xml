@@ -1,25 +1,23 @@
 <androidx.preference.PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="Layout Settings">
         <androidx.preference.SwitchPreference
-            app:title="Switch Theme"
+            app:title="@string/swc_theme"
             app:key="Theme"
             android:defaultValue="true"/>
     </PreferenceCategory>
     <PreferenceCategory
         app:title="Memory Management">
         <Preference
-            app:title="Clean cache"
+            app:title="@string/clean_cache"
             app:key="Cache"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="User Experience">
         <Preference
-            app:title="Leave us a Feedback"
+            app:title="@string/feedback"
             app:key="Feedback"/>
     </PreferenceCategory>
-
 </androidx.preference.PreferenceScreen>

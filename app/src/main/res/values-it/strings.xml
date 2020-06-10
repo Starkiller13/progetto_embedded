@@ -3,7 +3,7 @@
     <string name="home_button_camera">Camera</string>
     <string name="home_button_galley">Galleria</string>
     <string name="button_elaborate">Avanti</string>
-    <string name="button_add_history">Aggiungi alla History</string>
+    <string name="button_add_history">Aggiungi\nalla History</string>
     <string name="navigation_drawer_open">Open nav drawer</string>
     <string name="navigation_drawer_close">Close nav drawer</string>
     <string name="history">History</string>
@@ -19,5 +19,14 @@
     <string name="menu_item_history">History</string>
     <string name="menu_item_languages">Lingue</string>
     <string name="menu_item_settings">Impostazioni</string>
+    <string name="insert">Aggiunto</string>
+    <string name="insert_a">Già inserito!</string>
+    <string name="permission_d">Permesso negato!</string>
+    <string name="cache_cleared">Cache ripulita!</string>
+    <string name="cache_cleared_f">Errore!</string>
+    <string name="image_not_found">Foto non \ntrovata!</string>
     <string name="title_activity_camera_gallery_activity" />
+    <string name="clean_cache">Clean cache</string>
+    <string name="feedback">Leave us a Feedback</string>
+    <string name="swc_theme">Switch Theme</string>
 </resources>

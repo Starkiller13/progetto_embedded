@@ -117,7 +117,7 @@ public class Camera_Gallery_activity extends AppCompatActivity {
     public void onElaborateClick(View view) {
         //Caso limite, non si verifica mai(in teoria)
         if (currentPhotoPath == null) {
-            Toast myToast = Toast.makeText(this, "No image found", Toast.LENGTH_SHORT);
+            Toast myToast = Toast.makeText(this, getResources().getString(R.string.image_not_found), Toast.LENGTH_SHORT);
             myToast.show();
         }
         //Mi serve per far si che non si possa cliccare il bottone più volte facendo crashare l'app

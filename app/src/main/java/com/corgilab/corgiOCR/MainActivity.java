@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements
                     startActivityForResult(i,0);
                 } else {
                     //Permission denied
-                    Toast myToast = Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT);
+                    Toast myToast = Toast.makeText(this, getResources().getString(R.string.permission_d), Toast.LENGTH_SHORT);
                     myToast.show();
                 }
             }
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements
                         startActivityForResult(i,0);
                     } else {
                         //Permission denied
-                        Toast myToast = Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT);
+                        Toast myToast = Toast.makeText(this, getResources().getString(R.string.permission_d), Toast.LENGTH_SHORT);
                         myToast.show();
                     }
                 }
