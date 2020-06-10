@@ -26,7 +26,7 @@
     <string name="cache_cleared_f">Errore!</string>
     <string name="image_not_found">Foto non \ntrovata!</string>
     <string name="title_activity_camera_gallery_activity" />
-    <string name="clean_cache">Clean cache</string>
-    <string name="feedback">Leave us a Feedback</string>
-    <string name="swc_theme">Switch Theme</string>
+    <string name="clean_cache">Pulisci la cache</string>
+    <string name="feedback">Mandaci un Feedback</string>
+    <string name="swc_theme">Cambia tema</string>
 </resources>

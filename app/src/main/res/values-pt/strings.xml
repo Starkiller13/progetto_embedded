@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">CorgiOCR GO</string>
+    <string name="home_button_camera">Câmera</string>
+    <string name="home_button_galley">Galeria</string>
+    <string name="button_elaborate">elaborar</string>
+    <string name="button_add_history">Adicionar \nao histórico</string>
+    <string name="navigation_drawer_open">Open nav drawer</string>
+    <string name="navigation_drawer_close">Close nav drawer</string>
+    <string name="history">História</string>
+    <string name="home">Home</string>
+    <string name="button_back">De volta</string>
+    <string name="button_share">Compartilhar</string>
+    <string name="recently_added">Adicionado recentemente</string>
+    <string name="t2s_selection">Selecione o idioma do texto para fala</string>
+    <string name="feedback_text_hint">Escreva aqui</string>
+    <string name="feedback_title">Comentários</string>
+    <string name="header_image">Imagem de cabeçalho</string>
+    <string name="menu_item_home">Home</string>
+    <string name="menu_item_history">História</string>
+    <string name="menu_item_languages">línguas</string>
+    <string name="menu_item_settings">Definições</string>
+    <string name="title_activity_camera_gallery_activity"/>
+    <string name="insert">Adicionado ao histórico</string>
+    <string name="insert_a">Já adicionado!</string>
+    <string name="permission_d">Permissão negada!</string>
+    <string name="cache_cleared">Cache limpo!</string>
+    <string name="cache_cleared_f">Falhou!</string>
+    <string name="image_not_found">Imagem não encontrada!</string>
+    <string name="clean_cache">Cache limpo</string>
+    <string name="feedback">Deixe-nos um feedback</string>
+    <string name="swc_theme">
+Mudar tema</string>
+</resources>

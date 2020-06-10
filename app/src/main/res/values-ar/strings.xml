@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">CorgiOCR GO</string>
+    <string name="home_button_camera">الة تصوير</string>
+    <string name="home_button_galley">صالة عرض</string>
+    <string name="button_elaborate">توضيح</string>
+    <string name="button_add_history">أضف إلى التاريخ</string>
+    <string name="navigation_drawer_open">Open nav drawer</string>
+    <string name="navigation_drawer_close">Close nav drawer</string>
+    <string name="history">التاريخ</string>
+    <string name="home">الصفحة الرئيسية</string>
+    <string name="button_back">عودة</string>
+    <string name="button_share">شارك</string>
+    <string name="recently_added">أضيف مؤخرا</string>
+    <string name="t2s_selection">حدد النص إلى لغة الكلام</string>
+    <string name="feedback_text_hint">اكتب هنا</string>
+    <string name="feedback_title">ردود الفعل</string>
+    <string name="header_image">صورة رأس</string>
+    <string name="menu_item_home">الصفحة الرئيسية</string>
+    <string name="menu_item_history">التاريخ</string>
+    <string name="menu_item_languages">اللغات</string>
+    <string name="menu_item_settings">الإعدادات</string>
+    <string name="title_activity_camera_gallery_activity"/>
+    <string name="insert">أضيف إلى التاريخ</string>
+    <string name="insert_a">تم الاضافة مسبقا!</string>
+    <string name="permission_d">طلب الاذن مرفوض!</string>
+    <string name="cache_cleared">تم مسح ذاكرة التخزين المؤقت!</string>
+    <string name="cache_cleared_f">فشل!</string>
+    <string name="image_not_found">الصورة غير موجودة!</string>
+    <string name="clean_cache">نظف ذاكرة التخزين المؤقت</string>
+    <string name="feedback">اترك لنا ملاحظاتك</string>
+    <string name="swc_theme">تبديل السمة</string>
+</resources>

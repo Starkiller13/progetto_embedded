@@ -27,7 +27,7 @@
     <string name="cache_cleared_f">¡Ha fallado!</string>
     <string name="image_not_found">¡Imagen no encontrada!</string>
     <string name="title_activity_camera_gallery_activity" />
-    <string name="clean_cache">Clean cache</string>
-    <string name="feedback">Leave us a Feedback</string>
-    <string name="swc_theme">Switch Theme</string>
+    <string name="clean_cache">Limpiar cache</string>
+    <string name="feedback">Déjanos un comentario</string>
+    <string name="swc_theme">Cambiar de tema</string>
 </resources>
