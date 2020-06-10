@@ -41,6 +41,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
     }
 
+    /**
+     * Metodo per gestire lo switch del tema, dopo l'azione c'è una fase di edit delle sharedpreferences e vi è
+     * un intent a MainActivity per il refresh della UI
+     * @param sharedPreferences
+     * @param key
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(isAdded()){

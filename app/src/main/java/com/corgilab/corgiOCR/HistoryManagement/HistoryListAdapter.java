@@ -12,9 +12,14 @@ import android.widget.TextView;
 import com.corgilab.corgiOCR.R;
 import java.util.List;
 
-
+/**
+ * Adapter per il recyclerview di HistoryFragment
+ */
 public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryViewHolder> {
 
+    /**
+     * ViewHolder
+     */
     class HistoryViewHolder extends RecyclerView.ViewHolder {
         private final TextView wordItemView;
         private final TextView wordHeader;
@@ -61,8 +66,14 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         }
     }
 
+    /**
+     * Interfaccia per l'onClick Listener
+     */
     public interface OnItemClickListener{ void onItemClick(int position);}
 
+    /**
+     * Interfaccia per l'onLongClick Listener(per eliminare poi gli elementi dalla lista)
+     */
     public interface OnItemLongClickListener{ void onItemLongClick(int position);}
 
     public void setOnItemClickListener(OnItemClickListener listener){

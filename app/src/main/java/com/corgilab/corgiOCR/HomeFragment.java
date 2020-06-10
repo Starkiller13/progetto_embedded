@@ -2,8 +2,6 @@ package com.corgilab.corgiOCR;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,13 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.corgilab.corgiOCR.HistoryManagement.History;
 import com.corgilab.corgiOCR.HistoryManagement.HistoryListAdapter;
 import com.corgilab.corgiOCR.HistoryManagement.HistoryViewModel;
-
 import java.util.List;
 
+/**
+ * Framgment Home, mostra una preview della history ed i bottoni per l'avvio
+ * degli intent di cattura o pick delle immagini
+ */
 public class HomeFragment extends Fragment{
     private static final String TAG = "HomeFragment";
 

@@ -11,7 +11,8 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 /**
- * Classe con metodo statico per l'elaborazione delle immagini
+ * Classe con metodo statico per l'elaborazione delle immagini,
+ * è di supporto e potrebbe essere utile per prossime feature
  */
 @SuppressLint("Registered")
 public class staticOCR_t2s extends AppCompatActivity {
