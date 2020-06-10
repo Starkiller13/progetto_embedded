@@ -29,4 +29,5 @@
     <string name="clean_cache">Pulisci la cache</string>
     <string name="feedback">Mandaci un Feedback</string>
     <string name="swc_theme">Cambia tema</string>
+    <string name="snackbar">Tieni premuto un elemento per selezionarlo</string>
 </resources>

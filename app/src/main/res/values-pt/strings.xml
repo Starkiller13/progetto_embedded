@@ -29,6 +29,6 @@
     <string name="image_not_found">Imagem não encontrada!</string>
     <string name="clean_cache">Cache limpo</string>
     <string name="feedback">Deixe-nos um feedback</string>
-    <string name="swc_theme">
-Mudar tema</string>
+    <string name="swc_theme">Mudar tema</string>
+    <string name="snackbar">Pressione e segure um item para selecioná-lo</string>
 </resources>

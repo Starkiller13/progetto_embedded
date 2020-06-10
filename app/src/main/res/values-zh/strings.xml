@@ -30,4 +30,5 @@
     <string name="clean_cache">清理緩存</string>
     <string name="feedback">給我們反饋</string>
     <string name="swc_theme">切換主題</string>
+    <string name="snackbar">長按一個項目將其選中</string>
 </resources>

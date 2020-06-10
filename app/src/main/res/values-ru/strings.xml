@@ -30,4 +30,5 @@
     <string name="clean_cache">Чистый кеш</string>
     <string name="feedback">Оставьте нам свой отзыв</string>
     <string name="swc_theme">Переключить тему</string>
+    <string name="snackbar">Длительно нажмите на предмет, чтобы выбрать его</string>
 </resources>

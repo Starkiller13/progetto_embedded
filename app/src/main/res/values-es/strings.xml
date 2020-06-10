@@ -30,4 +30,5 @@
     <string name="clean_cache">Limpiar cache</string>
     <string name="feedback">Déjanos un comentario</string>
     <string name="swc_theme">Cambiar de tema</string>
+    <string name="snackbar">Mantenga presionado un elemento para seleccionarlo</string>
 </resources>

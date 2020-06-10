@@ -30,4 +30,5 @@
     <string name="clean_cache">نظف ذاكرة التخزين المؤقت</string>
     <string name="feedback">اترك لنا ملاحظاتك</string>
     <string name="swc_theme">تبديل السمة</string>
+    <string name="snackbar">الضغط لفترة طويلة على عنصر لتحديده</string>
 </resources>

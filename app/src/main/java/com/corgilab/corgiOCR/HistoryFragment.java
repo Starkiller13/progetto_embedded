@@ -99,7 +99,7 @@ public class HistoryFragment extends Fragment {
                 adapter.setWords(words);
             }
         });
-        Snackbar snackbar = Snackbar.make(requireActivity().findViewById(R.id.fragment_container),"Long press an item to select it", BaseTransientBottomBar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(requireActivity().findViewById(R.id.fragment_container), R.string.snackbar, BaseTransientBottomBar.LENGTH_LONG);
         snackbar.setTextColor(getResources().getColor(R.color.secondaryTextColor, requireActivity().getTheme()));
         snackbar.show();
         return view;

@@ -30,4 +30,5 @@
     <string name="clean_cache">साफ कैश</string>
     <string name="feedback">हमें एक प्रतिक्रिया छोड़ दें</string>
     <string name="swc_theme">थीम स्विच करें</string>
+    <string name="snackbar">किसी आइटम को चुनने के लिए उसे लंबे समय तक दबाएं</string>
 </resources>
